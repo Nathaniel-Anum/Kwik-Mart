@@ -66,7 +66,7 @@ const Dashboard = () => {
 
             {/* Right Section: Icon */}
             <div
-              className={`${item.color} text-white p-6 rounded-full text-2xl`}
+              className={`${item.color} text-white p-4 rounded-full text-2xl`}
             >
               {item.icon}
             </div>
