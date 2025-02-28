@@ -123,6 +123,7 @@ const Products = () => {
 
   return (
     <div className="p-4 ml-[15rem] min-h-screen">
+      <h1 className="text-2xl font-semibold mb-4">Products</h1>
       <div className="flex justify-end mb-4">
         <Button
           type="primary"

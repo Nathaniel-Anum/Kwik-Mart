@@ -166,6 +166,7 @@ const SubcategoriesPage = () => {
 
   return (
     <div className="p-6 ml-[15rem]">
+       <h1 className="text-2xl font-semibold mb-4">Sub Category</h1>
       {/* Add Subcategory Button */}
       <div className="flex justify-end mb-4">
         <Button

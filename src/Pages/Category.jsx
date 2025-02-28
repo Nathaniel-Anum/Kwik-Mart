@@ -216,7 +216,7 @@ const Categories = () => {
     <div className="p-6 ml-[15rem]">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl">Category</h2>
+      <h1 className="text-2xl font-semibold mb-4">Category</h1>
         <Button
           type="primary"
           className="bg-white text-black rounded-lg flex items-center px-4 py-2 hover:bg-gray-100 transition"
