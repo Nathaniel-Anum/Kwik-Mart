@@ -97,12 +97,12 @@ const Transactions = () => {
   };
 
   const columns = [
-    {
-      title: "Transaction ID",
-      dataIndex: "transactionId",
-      key: "transactionId",
-      sorter: (a, b) => a.transactionId.localeCompare(b.transactionId),
-    },
+    // {
+    //   title: "Transaction ID",
+    //   dataIndex: "transactionId",
+    //   key: "transactionId",
+    //   sorter: (a, b) => a.transactionId.localeCompare(b.transactionId),
+    // },
     {
       title: "Customer",
       dataIndex: "customer",

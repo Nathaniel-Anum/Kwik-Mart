@@ -6,7 +6,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([
     {
       key: "1",
-      orderId: "ORD001",
+
       customer: "John Doe",
       status: "Pending",
       paymentMethod: "Credit Card",
@@ -16,7 +16,7 @@ const Orders = () => {
     },
     {
       key: "2",
-      orderId: "ORD002",
+
       customer: "Jane Smith",
       status: "Shipped",
       paymentMethod: "PayPal",
@@ -26,7 +26,7 @@ const Orders = () => {
     },
     {
       key: "3",
-      orderId: "ORD003",
+
       customer: "Michael Johnson",
       status: "Delivered",
       paymentMethod: "Bank Transfer",
@@ -36,7 +36,7 @@ const Orders = () => {
     },
     {
       key: "4",
-      orderId: "ORD004",
+
       customer: "Emma Wilson",
       status: "Canceled",
       paymentMethod: "Cash on Delivery",
@@ -46,7 +46,7 @@ const Orders = () => {
     },
     {
       key: "5",
-      orderId: "ORD005",
+
       customer: "Chris Brown",
       status: "Pending",
       paymentMethod: "Credit Card",
@@ -56,7 +56,7 @@ const Orders = () => {
     },
     {
       key: "6",
-      orderId: "ORD006",
+
       customer: "Olivia Davis",
       status: "Shipped",
       paymentMethod: "PayPal",
@@ -66,7 +66,7 @@ const Orders = () => {
     },
     {
       key: "7",
-      orderId: "ORD007",
+
       customer: "Ethan Martinez",
       status: "Delivered",
       paymentMethod: "Credit Card",
@@ -76,7 +76,7 @@ const Orders = () => {
     },
     {
       key: "8",
-      orderId: "ORD008",
+
       customer: "Sophia Anderson",
       status: "Pending",
       paymentMethod: "Bank Transfer",
@@ -97,12 +97,12 @@ const Orders = () => {
   };
 
   const columns = [
-    {
-      title: "Order ID",
-      dataIndex: "orderId",
-      key: "orderId",
-      sorter: (a, b) => a.orderId.localeCompare(b.orderId),
-    },
+    // {
+    //   title: "Order ID",
+    //   dataIndex: "orderId",
+    //   key: "orderId",
+    //   sorter: (a, b) => a.orderId.localeCompare(b.orderId),
+    // },
     {
       title: "Customer",
       dataIndex: "customer",
@@ -145,7 +145,7 @@ const Orders = () => {
       dataIndex: "itemsCount",
       key: "itemsCount",
       sorter: (a, b) => a.itemsCount - b.itemsCount,
-    }
+    },
   ];
 
   return (
