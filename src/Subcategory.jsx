@@ -1,19 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { Table, Button, Modal, Input, Select, message } from "antd";
+import { Table, Button, Modal, Input, Select } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import toast from "react-hot-toast";
 
 const fetchCategories = async () => {
-  const { data } = await axios.get(
-    "https://supermart-q7ed.onrender.com/api/categories/"
-  );
+  const { data } = await axios.get("http://168.231.114.1/api/categories/");
   return data;
 };
 
 const fetchSubcategories = async () => {
   const { data } = await axios.get(
-    "https://supermart-q7ed.onrender.com/api/subcategories/"
+    "https://kwirkmart.expertech.dev/api/subcategories/"
   );
   return data;
 };
@@ -44,47 +43,42 @@ const SubcategoriesPage = () => {
   // Mutation to add subcategory
   const addSubcategory = useMutation({
     mutationFn: async (subcategory) =>
-      axios.post(
-        "https://supermart-q7ed.onrender.com/api/subcategories/",
-        subcategory
-      ),
+      axios.post("http://168.231.114.1/api/subcategories/", subcategory),
     onSuccess: () => {
-      message.success("Subcategory added!");
+      toast.success("Subcategory added!");
       queryClient.invalidateQueries(["subcategories"]);
       setIsAddModalOpen(false);
       setFormData({ name: "", description: "", category: null });
     },
-    onError: () => message.error("Failed to add subcategory."),
+    onError: () => toast.error("Failed to add subcategory."),
   });
 
   // Mutation to edit subcategory
   const editSubcategory = useMutation({
     mutationFn: async (subcategory) => {
       return axios.put(
-        `https://supermart-q7ed.onrender.com/api/subcategories/${editingSubcategory.id}/`,
+        `http://168.231.114.1/api/subcategories/${editingSubcategory.id}/`,
         subcategory
       );
     },
     onSuccess: () => {
-      message.success("Subcategory updated!");
+      toast.success("Subcategory updated!");
       queryClient.invalidateQueries(["subcategories"]);
       setIsEditModalOpen(false);
       setEditingSubcategory(null);
     },
-    onError: () => message.error("Failed to update subcategory."),
+    onError: () => toast.error("Failed to update subcategory."),
   });
 
   // Mutation to delete subcategory
   const deleteSubcategory = useMutation({
     mutationFn: async (id) =>
-      axios.delete(
-        `https://supermart-q7ed.onrender.com/api/subcategories/${id}`
-      ),
+      axios.delete(`http://168.231.114.1/api/subcategories/${id}`),
     onSuccess: () => {
-      message.success("Subcategory deleted!");
+      toast.success("Subcategory deleted!");
       queryClient.invalidateQueries(["subcategories"]);
     },
-    onError: () => message.error("Failed to delete subcategory."),
+    onError: () => toast.error("Failed to delete subcategory."),
   });
 
   // Handle input change
@@ -100,7 +94,7 @@ const SubcategoriesPage = () => {
   // Handle adding a new subcategory
   const handleAddSubmit = () => {
     if (!formData.name || !formData.description || !formData.category) {
-      return message.warning("All fields are required");
+      return toast.warning("All fields are required");
     }
     addSubcategory.mutate(formData);
   };
@@ -108,7 +102,7 @@ const SubcategoriesPage = () => {
   // Handle editing a subcategory
   const handleEditSubmit = () => {
     if (!formData.name || !formData.description || !formData.category) {
-      return message.warning("All fields are required");
+      return toast.warning("All fields are required");
     }
     editSubcategory.mutate({
       name: formData.name,
@@ -166,7 +160,7 @@ const SubcategoriesPage = () => {
 
   return (
     <div className="p-6 ml-[15rem]">
-       <h1 className="text-2xl font-semibold mb-4">Sub Category</h1>
+      <h1 className="text-2xl font-semibold mb-4">Sub Category</h1>
       {/* Add Subcategory Button */}
       <div className="flex justify-end mb-4">
         <Button

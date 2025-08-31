@@ -18,11 +18,12 @@ import {
 } from "@ant-design/icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 // Fetch categories function
 const fetchCategories = async () => {
   const { data } = await axios.get(
-    "https://supermart-q7ed.onrender.com/api/categories/"
+    "https://kwirkmart.expertech.dev/api/categories/"
   );
   return data;
 };
@@ -30,19 +31,20 @@ const fetchCategories = async () => {
 // Create category function using FormData
 const createCategory = async (formData) => {
   const { data } = await axios.post(
-    "https://supermart-q7ed.onrender.com/api/categories/",
+    "https://kwirkmart.expertech.dev/api/categories/",
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
     }
   );
+
   return data;
 };
 
 // Update category function
 const updateCategory = async ({ id, formData }) => {
   const { data } = await axios.put(
-    `https://supermart-q7ed.onrender.com/api/categories/${id}/`,
+    `https://kwirkmart.expertech.dev/api/categories/${id}/`,
     formData
   );
   return data;
@@ -50,9 +52,7 @@ const updateCategory = async ({ id, formData }) => {
 
 // Delete category function
 const deleteCategory = async (id) => {
-  await axios.delete(
-    `https://supermart-q7ed.onrender.com/api/categories/${id}/`
-  );
+  await axios.delete(`https://kwirkmart.expertech.dev/api/categories/${id}/`);
 };
 
 const Categories = () => {
@@ -74,14 +74,14 @@ const Categories = () => {
   const createMutation = useMutation({
     mutationFn: createCategory,
     onSuccess: () => {
-      message.success("Category added successfully!");
+      toast.success("Category added successfully!");
       queryClient.invalidateQueries(["categories"]);
       setIsModalOpen(false);
       form.resetFields();
       setFile(null); // Reset file input
     },
     onError: () => {
-      message.error("Failed to add category. Try again!");
+      toast.error("Failed to add category. Try again!");
     },
   });
 
@@ -89,24 +89,24 @@ const Categories = () => {
   const editMutation = useMutation({
     mutationFn: updateCategory,
     onSuccess: () => {
-      message.success("Category updated successfully!");
+      toast.success("Category updated successfully!");
       queryClient.invalidateQueries(["categories"]);
       setIsEditModalOpen(false);
       editForm.resetFields();
       setFile(null);
     },
-    onError: () => message.error("Failed to update category. Try again!"),
+    onError: () => toast.error("Failed to update category. Try again!"),
   });
 
   // Mutation to delete a category
   const deleteMutation = useMutation({
     mutationFn: deleteCategory,
     onSuccess: () => {
-      message.success("Category deleted successfully!");
+      toast.success("Category deleted successfully!");
       queryClient.invalidateQueries(["categories"]);
     },
     onError: () => {
-      message.error("Failed to delete category. Try again!");
+      toast.error("Failed to delete category. Try again!");
     },
   });
 
@@ -216,7 +216,7 @@ const Categories = () => {
     <div className="p-6 ml-[15rem]">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-      <h1 className="text-2xl font-semibold mb-4">Category</h1>
+        <h1 className="text-2xl font-semibold mb-4">Category</h1>
         <Button
           type="primary"
           className="bg-white text-black rounded-lg flex items-center px-4 py-2 hover:bg-gray-100 transition"

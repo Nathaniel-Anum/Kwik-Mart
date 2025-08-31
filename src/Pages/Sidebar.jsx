@@ -22,7 +22,8 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     setLoading(true);
-    console.log("Logging out...");
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
 
     setTimeout(() => {
       navigate("/login");
