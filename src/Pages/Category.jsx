@@ -9,6 +9,7 @@ import {
   Tooltip,
   Popover,
   Upload,
+  Image,
 } from "antd";
 import {
   PlusOutlined,
@@ -168,6 +169,20 @@ const Categories = () => {
   // Table columns
   const columns = [
     // { title: "ID", dataIndex: "id", key: "id" },
+     {
+      title: "Image",
+      dataIndex: "category_image",
+      key: "product_image",
+      render: (imgSrc) => (
+        <Image
+          width={60}
+          src={imgSrc}
+          alt="Product"
+          placeholder
+          fallback="https://via.placeholder.com/60"
+        />
+      ),
+    },
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Description", dataIndex: "description", key: "description" },
     {

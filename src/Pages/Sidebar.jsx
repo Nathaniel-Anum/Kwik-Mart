@@ -12,7 +12,7 @@ import {
   FaMoneyBillWave, // Transactions Icon
 } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im"; // Spinner icon
-import logo from "../../src/Pages/utils/logo.jpg";
+import logo from "../../src/Pages/utils/pic.jpg";
 
 const Sidebar = () => {
   const [active, setActive] = useState("Dashboard");
