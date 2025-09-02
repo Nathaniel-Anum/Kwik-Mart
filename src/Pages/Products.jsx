@@ -25,18 +25,21 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { LoadingOutlined } from "@ant-design/icons";
+import api from "./utils/apiClient";
 
 const fetchSubcategories = async () => {
-  const { data } = await axios.get("http://168.231.114.1/api/subcategories/");
+  const { data } = await axios.get(
+    "https://kwirkmart.expertech.dev/api/subcategories/"
+  );
   return data;
 };
 
 const fetchProducts = async () => {
   const { data: products } = await axios.get(
-    "http://168.231.114.1/api/products/"
+    "https://kwirkmart.expertech.dev/api/products/"
   );
   const { data: subcategories } = await axios.get(
-    "http://168.231.114.1/api/subcategories/"
+    "https://kwirkmart.expertech.dev/api/subcategories/"
   );
 
   return products.map((product) => ({
@@ -47,7 +50,7 @@ const fetchProducts = async () => {
 
 const createProduct = async (formData) => {
   const { data } = await axios.post(
-    "http://168.231.114.1/api/products/",
+    "https://kwirkmart.expertech.dev/api/products/",
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
@@ -59,7 +62,7 @@ const createProduct = async (formData) => {
 // Update product function
 const updateProduct = async ({ id, formData }) => {
   const { data } = await axios.put(
-    `http://168.231.114.1/api/products/${id}/`,
+    `https://kwirkmart.expertech.dev/api/products/${id}/`,
     formData
   );
   return data;
@@ -67,7 +70,7 @@ const updateProduct = async ({ id, formData }) => {
 
 // Delete category function
 const deleteProduct = async (id) => {
-  await axios.delete(`http://168.231.114.1/api/products/${id}/`);
+  await api.delete(`https://kwirkmart.expertech.dev/api/products/${id}/`);
 };
 
 const Products = () => {
@@ -92,7 +95,7 @@ const Products = () => {
   const { data: orders } = useQuery({
     queryKey: ["orders"],
     queryFn: () => {
-      return axios.get("http://168.231.114.1/api/v1/list");
+      return axios.get("https://kwirkmart.expertech.dev/api/v1/list");
     },
   });
 

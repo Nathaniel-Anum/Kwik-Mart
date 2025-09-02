@@ -5,8 +5,11 @@ import { ImSpinner2 } from "react-icons/im"; // Import spinner icon
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuth } from "./AuthContext";
+import logo from "../../src/Pages/utils/logo.jpg";
 
 const SignIn = () => {
+  const { setUser } = useAuth();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,11 +29,12 @@ const SignIn = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      console.log("✅ Login Success:", data);
+      // console.log("✅ Login Success:", data);
 
       // Save tokens
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
+      setUser(data.user);
 
       // Show redirect loader
       setRedirecting(true);
@@ -42,6 +46,8 @@ const SignIn = () => {
     },
     onError: (error) => {
       toast.error(error.response.data.detail);
+      setEmail("");
+      setPassword("");
       // toast.error("❌ Login Failed:", error.response?.data || error.message);
     },
   });
@@ -70,14 +76,16 @@ const SignIn = () => {
     <div className="h-screen flex items-center justify-center bg-white">
       <form
         onSubmit={handleSubmit}
-        className="bg-white/20 backdrop-blur-lg p-8 rounded-xl shadow-lg w-96"
+        className="bg-white/20  backdrop-blur-lg p-8 rounded-xl shadow-lg w-96"
       >
-        <h2 className="text-2xl font-bold text-center text-gray-900 py-8 mb-6">
-          Sign In
-        </h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900 ">Admin</h2>
+
+        <div className="flex  justify-center ">
+          <img src={logo} alt="KwikMart" className="h-[12rem]" />
+        </div>
 
         {/* Email Field */}
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="block text-gray-900 font-semibold mb-1">
             Email
           </label>

@@ -12,6 +12,7 @@ import {
   FaMoneyBillWave, // Transactions Icon
 } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im"; // Spinner icon
+import logo from "../../src/Pages/utils/logo.jpg";
 
 const Sidebar = () => {
   const [active, setActive] = useState("Dashboard");
@@ -24,6 +25,7 @@ const Sidebar = () => {
     setLoading(true);
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
+    localStorage.removeItem("user");
 
     setTimeout(() => {
       navigate("/login");
@@ -46,18 +48,20 @@ const Sidebar = () => {
     },
     { name: "Products", icon: <FaBox />, id: "Products", path: "/product" },
     { name: "Orders", icon: <FaShoppingCart />, id: "Orders", path: "/orders" }, // Added Orders
-    {
-      name: "Transactions",
-      icon: <FaMoneyBillWave />,
-      id: "Transactions",
-      path: "/transactions",
-    }, // Added Transactions
+    // {
+    //   name: "Transactions",
+    //   icon: <FaMoneyBillWave />,
+    //   id: "Transactions",
+    //   path: "/transactions",
+    // }, // Added Transactions
   ];
 
   return (
     <div className="w-64 h-screen fixed bg-black text-white flex flex-col">
       {/* Kwik Mart Title */}
-      <div className="p-6 text-xl font-bold text-center">Kwik Mart</div>
+      <div className="p-6 text-xl font-bold text-center">
+        <img src={logo} alt="" />
+      </div>
 
       {/* Navigation Links */}
       <ul className="mt-12 space-y-4 px-4">

@@ -6,7 +6,9 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
 
 const fetchCategories = async () => {
-  const { data } = await axios.get("http://168.231.114.1/api/categories/");
+  const { data } = await axios.get(
+    "https://kwirkmart.expertech.dev/api/categories/"
+  );
   return data;
 };
 
@@ -43,7 +45,10 @@ const SubcategoriesPage = () => {
   // Mutation to add subcategory
   const addSubcategory = useMutation({
     mutationFn: async (subcategory) =>
-      axios.post("http://168.231.114.1/api/subcategories/", subcategory),
+      axios.post(
+        "https://kwirkmart.expertech.dev/api/subcategories/",
+        subcategory
+      ),
     onSuccess: () => {
       toast.success("Subcategory added!");
       queryClient.invalidateQueries(["subcategories"]);
@@ -57,7 +62,7 @@ const SubcategoriesPage = () => {
   const editSubcategory = useMutation({
     mutationFn: async (subcategory) => {
       return axios.put(
-        `http://168.231.114.1/api/subcategories/${editingSubcategory.id}/`,
+        `https://kwirkmart.expertech.dev/api/subcategories/${editingSubcategory.id}/`,
         subcategory
       );
     },
@@ -73,7 +78,7 @@ const SubcategoriesPage = () => {
   // Mutation to delete subcategory
   const deleteSubcategory = useMutation({
     mutationFn: async (id) =>
-      axios.delete(`http://168.231.114.1/api/subcategories/${id}`),
+      axios.delete(`https://kwirkmart.expertech.dev/api/subcategories/${id}/`),
     onSuccess: () => {
       toast.success("Subcategory deleted!");
       queryClient.invalidateQueries(["subcategories"]);
