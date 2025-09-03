@@ -54,7 +54,7 @@ const Dashboard = () => {
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-[#f0e7df] cursor-pointer p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="bg-[#ffff] cursor-pointer p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
           >
             {/* Left Section: Count & Title */}
             <div className="flex flex-col space-y-1">
@@ -76,7 +76,7 @@ const Dashboard = () => {
       {/* Cards Container */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-10">
         {/* Product Sales Pie Chart */}
-        <div className="bg-[#f0e7df] p-6 rounded-lg shadow-md transition duration-300 hover:shadow-lg">
+        <div className="bg-[#Ffff] p-6 rounded-lg shadow-md transition duration-300 hover:shadow-lg">
           <h3 className="text-xl  mb-4 text-gray-900">
             Product Sales
           </h3>
@@ -104,7 +104,7 @@ const Dashboard = () => {
         </div>
 
         {/* Users Bar Chart */}
-        <div className="bg-[#f0e7df] p-6 rounded-lg shadow-md transition duration-300 hover:shadow-lg">
+        <div className="bg-[#fff] p-6 rounded-lg shadow-md transition duration-300 hover:shadow-lg">
           <h3 className="text-xl  mb-4 text-gray-900">
             User Growth
           </h3>

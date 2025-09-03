@@ -70,7 +70,7 @@ const Sidebar = () => {
             <Link
               to={item.path}
               className={`flex items-center gap-4 px-4 py-3 rounded-lg cursor-pointer transition duration-300 ${
-                active === item.id ? "bg-blue-500" : "hover:bg-blue-500"
+                active === item.id ? "bg-[#525252]" : "hover:bg-[#525252]"
               }`}
             >
               <span className="text-lg">{item.icon}</span>
@@ -83,7 +83,7 @@ const Sidebar = () => {
         <li>
           <div
             className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition duration-300 ${
-              active === "Users" ? "bg-blue-500" : "hover:bg-blue-500"
+              active === "Users" ? "bg-[#525252]" : "hover:bg-[#525252]"
             }`}
             onClick={() => {
               setUserMenuOpen(!userMenuOpen);
@@ -109,8 +109,8 @@ const Sidebar = () => {
                   to="/adminuser"
                   className={`flex items-center gap-4 px-4 py-2 rounded-lg transition duration-300 ${
                     active === "AdminUsers"
-                      ? "bg-blue-500"
-                      : "hover:bg-blue-500"
+                      ? "bg-[#525252]"
+                      : "hover:bg-[#525252]"
                   }`}
                 >
                   <span className="font-medium">Admin Users</span>
@@ -120,7 +120,9 @@ const Sidebar = () => {
                 <Link
                   to="/customer"
                   className={`flex items-center gap-4 px-4 py-2 rounded-lg transition duration-300 ${
-                    active === "Customers" ? "bg-blue-500" : "hover:bg-blue-500"
+                    active === "Customers"
+                      ? "bg-[#525252]"
+                      : "hover:bg-[#525252]"
                   }`}
                 >
                   <span className="font-medium">Customers</span>
