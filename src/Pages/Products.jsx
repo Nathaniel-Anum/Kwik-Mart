@@ -22,23 +22,22 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { LoadingOutlined } from "@ant-design/icons";
 import api from "./utils/apiClient";
 
 const fetchSubcategories = async () => {
-  const { data } = await axios.get(
+  const { data } = await api.get(
     "https://kwirkmart.expertech.dev/api/subcategories/"
   );
   return data;
 };
 
 const fetchProducts = async () => {
-  const { data: products } = await axios.get(
+  const { data: products } = await api.get(
     "https://kwirkmart.expertech.dev/api/products/"
   );
-  const { data: subcategories } = await axios.get(
+  const { data: subcategories } = await api.get(
     "https://kwirkmart.expertech.dev/api/subcategories/"
   );
 
@@ -49,7 +48,7 @@ const fetchProducts = async () => {
 };
 
 const createProduct = async (formData) => {
-  const { data } = await axios.post(
+  const { data } = await api.post(
     "https://kwirkmart.expertech.dev/api/products/",
     formData,
     {
@@ -61,7 +60,7 @@ const createProduct = async (formData) => {
 
 // Update product function
 const updateProduct = async ({ id, formData }) => {
-  const { data } = await axios.put(
+  const { data } = await api.put(
     `https://kwirkmart.expertech.dev/api/products/${id}/`,
     formData
   );
@@ -76,6 +75,7 @@ const deleteProduct = async (id) => {
 const Products = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -95,7 +95,7 @@ const Products = () => {
   const { data: orders } = useQuery({
     queryKey: ["orders"],
     queryFn: () => {
-      return axios.get("https://kwirkmart.expertech.dev/api/v1/list");
+      return api.get("https://kwirkmart.expertech.dev/api/v1/list");
     },
   });
 
@@ -126,6 +126,42 @@ const Products = () => {
     },
     onError: () => toast.error("Failed to update category. Try again!"),
   });
+
+  // Mutation for file upload for bulk products upload
+  const uploadMutation = useMutation({
+    mutationFn: async (formData) => {
+      const res = await api.post(
+        "https://kwirkmart.expertech.dev/api/products/bulk-upload/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast.success("Upload successful!");
+      setIsOpen(false);
+      form.resetFields();
+    },
+    onError: (error) => {
+      message.error("Upload failed. Please try again.");
+      console.error(error);
+    },
+  });
+
+  // Submit handler for bulk file upload
+  const handleSubmit = (values) => {
+    const formData = new FormData();
+    formData.append("file", values.file[0].originFileObj);
+    formData.append("images_zip", values.images_zip[0].originFileObj);
+    formData.append("dry_run", values.dry_run ? "true" : "false");
+
+    uploadMutation.mutate(formData);
+  };
 
   // Mutation to delete a category
   const deleteMutation = useMutation({
@@ -309,20 +345,28 @@ const Products = () => {
   return (
     <div className="p-4 ml-[15rem] min-h-screen">
       <h1 className="text-2xl font-semibold mb-4">Products</h1>
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end gap-2 mb-4">
         <Button
-          type="primary"
+          // type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalOpen(true)}
         >
           Add Product
+        </Button>
+        {/* Upload Product */}
+        <Button
+          type="default"
+          icon={<UploadOutlined />}
+          onClick={() => setIsOpen(true)}
+        >
+          Upload Products
         </Button>
       </div>
 
       <Spin
         indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
         spinning={isLoading}
-        tip="Loading..."
+        // tip="Loading..."
         size="large"
       >
         <Table dataSource={products || []} columns={columns} rowKey="id" />
@@ -486,6 +530,69 @@ const Products = () => {
           <Button type="primary" htmlType="submit" className="w-full">
             Save Changes
           </Button>
+        </Form>
+      </Modal>
+
+      {/* Upload Modal */}
+      <Modal
+        title="Upload Products"
+        open={isOpen}
+        onCancel={() => setIsOpen(false)}
+        onOk={() => form.submit()}
+        confirmLoading={uploadMutation.isLoading}
+        okText="Upload"
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          onFinish={handleSubmit}
+          requiredMark={false}
+        >
+          {/* CSV File */}
+          <Form.Item
+            name="file"
+            label="CSV File"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+            rules={[{ required: true, message: "Please upload CSV file" }]}
+          >
+            <Upload
+              beforeUpload={() => false}
+              accept=".csv"
+              maxCount={1}
+              showUploadList={{ showRemoveIcon: true }}
+            >
+              <Button icon={<UploadOutlined />}>Upload CSV</Button>
+            </Upload>
+          </Form.Item>
+
+          {/* Images Zip */}
+          <Form.Item
+            name="images_zip"
+            label="Images ZIP"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+            rules={[{ required: true, message: "Please upload ZIP file" }]}
+          >
+            <Upload
+              beforeUpload={() => false}
+              accept=".zip"
+              maxCount={1}
+              showUploadList={{ showRemoveIcon: true }}
+            >
+              <Button icon={<UploadOutlined />}>Upload ZIP</Button>
+            </Upload>
+          </Form.Item>
+
+          {/* Dry Run Toggle */}
+          <Form.Item
+            name="dry_run"
+            label="Dry Run"
+            valuePropName="checked"
+            initialValue={false}
+          >
+            <Switch />
+          </Form.Item>
         </Form>
       </Modal>
     </div>
