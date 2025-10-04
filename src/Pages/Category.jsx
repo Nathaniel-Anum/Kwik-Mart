@@ -18,12 +18,13 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+
 import toast from "react-hot-toast";
+import api from "./utils/apiClient";
 
 // Fetch categories function
 const fetchCategories = async () => {
-  const { data } = await axios.get(
+  const { data } = await api.get(
     "https://kwirkmart.expertech.dev/api/categories/"
   );
   return data;
@@ -31,7 +32,7 @@ const fetchCategories = async () => {
 
 // Create category function using FormData
 const createCategory = async (formData) => {
-  const { data } = await axios.post(
+  const { data } = await api.post(
     "https://kwirkmart.expertech.dev/api/categories/",
     formData,
     {
@@ -44,7 +45,7 @@ const createCategory = async (formData) => {
 
 // Update category function
 const updateCategory = async ({ id, formData }) => {
-  const { data } = await axios.put(
+  const { data } = await api.put(
     `https://kwirkmart.expertech.dev/api/categories/${id}/`,
     formData
   );
@@ -53,7 +54,7 @@ const updateCategory = async ({ id, formData }) => {
 
 // Delete category function
 const deleteCategory = async (id) => {
-  await axios.delete(`https://kwirkmart.expertech.dev/api/categories/${id}/`);
+  await api.delete(`https://kwirkmart.expertech.dev/api/categories/${id}/`);
 };
 
 const Categories = () => {
@@ -169,7 +170,7 @@ const Categories = () => {
   // Table columns
   const columns = [
     // { title: "ID", dataIndex: "id", key: "id" },
-     {
+    {
       title: "Image",
       dataIndex: "category_image",
       key: "product_image",

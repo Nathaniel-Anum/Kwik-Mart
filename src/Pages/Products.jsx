@@ -37,11 +37,12 @@ const fetchProducts = async () => {
   const { data: products } = await api.get(
     "https://kwirkmart.expertech.dev/api/products/"
   );
+
   const { data: subcategories } = await api.get(
     "https://kwirkmart.expertech.dev/api/subcategories/"
   );
 
-  return products.map((product) => ({
+  return products?.data?.map((product) => ({
     ...product,
     sub_category: subcategories.find((sub) => sub.id === product.sub_category),
   }));
