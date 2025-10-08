@@ -14,7 +14,7 @@ const Layout = () => {
         <Navbar />
 
         {/* Main content area */}
-        <div className="p-6 bg-[#ebdfd8] min-h-screen">
+        <div className="p-6 bg-[#ebdfd8] ">
           <Outlet /> {/* This will render the active route content */}
         </div>
       </div>

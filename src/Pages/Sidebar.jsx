@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im"; // Spinner icon
 import logo from "../../src/Pages/utils/pic.jpg";
+import { RiCoupon2Line } from "react-icons/ri";
 
 const Sidebar = () => {
   const [active, setActive] = useState("Dashboard");
@@ -47,7 +48,8 @@ const Sidebar = () => {
       path: "/sub-category",
     },
     { name: "Products", icon: <FaBox />, id: "Products", path: "/product" },
-    { name: "Orders", icon: <FaShoppingCart />, id: "Orders", path: "/orders" }, // Added Orders
+    { name: "Orders", icon: <FaShoppingCart />, id: "Orders", path: "/orders" }, 
+    { name: "Coupons", icon: <RiCoupon2Line />, id: "Coupons", path: "/coupon" }, 
     // {
     //   name: "Transactions",
     //   icon: <FaMoneyBillWave />,

@@ -17,6 +17,7 @@ import Transaction from "./Pages/Transaction";
 import AdminUser from "./Pages/AdminUser";
 import Customer from "./Pages/Customer";
 import ProtectedRoute from "./Pages/ProtectedRoute";
+import Coupon from "./Pages/Coupon";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="category" element={<Category />} />
           <Route path="sub-category" element={<Subcategory />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="coupon" element={<Coupon />} />
           <Route path="transactions" element={<Transaction />} />
           <Route path="adminuser" element={<AdminUser />} />
           <Route path="customer" element={<Customer />} />
