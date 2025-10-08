@@ -21,7 +21,8 @@ import {
 import { MoreOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { FaTicketAlt } from "react-icons/fa";
 import api from "./utils/apiClient";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 const { Option } = Select;
 
 const { Title, Text } = Typography;
@@ -31,11 +32,14 @@ const fetchCoupons = async () => {
   return res.data;
 };
 
+
+
 const Coupon = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const queryClient = useQueryClient();
 
   const formatDate = (date) => {
     if (!date) return null;
@@ -62,12 +66,13 @@ const Coupon = () => {
         "https://kwirkmart.expertech.dev/api/v1/coupons/",
         payload
       ); //
-      message.success("Coupon created successfully!");
+      toast.success("Coupon created successfully!");
+      queryClient.invalidateQueries({ queryKey: ["coupons"] });
       setOpen(false);
       form.resetFields();
     } catch (err) {
       console.error(err);
-      message.error("Failed to create coupon.");
+      toast.error("Failed to create coupon.");
     } finally {
       setLoading(false);
     }
@@ -181,6 +186,22 @@ const Coupon = () => {
     },
   ];
 
+  const { data: sales } = useQuery({
+    queryKey: ["sales"],
+    queryFn: api.get(
+      "https://kwirkmart.expertech.dev/api/v1/orders/sales/summary/"
+    ),
+  });
+  console.log(sales);
+
+  const { data: users } = useQuery({
+    queryKey: ["sales"],
+    queryFn: api.get(
+      "https://kwirkmart.expertech.dev/api/auth/admin/analytics/users/"
+    ),
+  });
+  console.log(users);
+
   const stats = [
     {
       title: "Total Coupons",
@@ -202,7 +223,7 @@ const Coupon = () => {
     },
     {
       title: "Fixed Discount Value",
-      count:  0,
+      count: 0,
       icon: <RiCoupon2Line />,
       color: "bg-black",
     },
@@ -479,7 +500,7 @@ const Coupon = () => {
               columns={columns}
               dataSource={filteredCoupons}
               rowKey="id"
-              pagination={{ pageSize: 5 }}
+              pagination={{ pageSize: 10 }}
               className="rounded-lg text-base"
             />
             <div className="text-gray-500 text-sm mt-3">
