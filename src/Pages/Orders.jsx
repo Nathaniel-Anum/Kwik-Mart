@@ -49,6 +49,7 @@ const OrdersTable = () => {
     const s = (status || "").toLowerCase();
     if (s === "approved") return <Tag color="green">Approved</Tag>;
     if (s === "cancelled") return <Tag color="red">Cancelled</Tag>;
+    if (s === "paid") return <Tag color="green">Paid</Tag>;
     // processing or default
     return <Tag color="gold">Processing</Tag>;
   }
@@ -334,6 +335,17 @@ const OrdersTable = () => {
               <div style={{ marginBottom: 24 }}>
                 <p style={{ marginBottom: 8 }}>
                   <strong>Placed by:</strong> {orderDetail.placed_by}
+                </p>
+                <p style={{ marginBottom: 8 }}>
+                  <strong>Shipping Address:</strong>{" "}
+                  {orderDetail.shipping_address}
+                </p>
+                <p style={{ marginBottom: 8 }}>
+                  <strong>Payment Status:</strong>{" "}
+                  {statusTag(orderDetail.payment_status)}
+                </p>
+                <p style={{ marginBottom: 8 }}>
+                  <strong>Payment Method:</strong> {orderDetail.payment_method}
                 </p>
                 <p style={{ marginBottom: 8 }}>
                   <strong>Order date:</strong>{" "}
