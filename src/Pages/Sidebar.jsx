@@ -48,14 +48,19 @@ const Sidebar = () => {
       path: "/sub-category",
     },
     { name: "Products", icon: <FaBox />, id: "Products", path: "/product" },
-    { name: "Orders", icon: <FaShoppingCart />, id: "Orders", path: "/orders" }, 
-    { name: "Coupons", icon: <RiCoupon2Line />, id: "Coupons", path: "/coupon" }, 
-    // {
-    //   name: "Transactions",
-    //   icon: <FaMoneyBillWave />,
-    //   id: "Transactions",
-    //   path: "/transactions",
-    // }, // Added Transactions
+    { name: "Orders", icon: <FaShoppingCart />, id: "Orders", path: "/orders" },
+    {
+      name: "Coupons",
+      icon: <RiCoupon2Line />,
+      id: "Coupons",
+      path: "/coupon",
+    },
+    {
+      name: "Users",
+      icon: <FaUsers />,
+      id: "Users",
+      path: "/users",
+    }, // Added Transactions
   ];
 
   return (
@@ -82,57 +87,6 @@ const Sidebar = () => {
         ))}
 
         {/* Users with Submenu */}
-        <li>
-          <div
-            className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition duration-300 ${
-              active === "Users" ? "bg-[#525252]" : "hover:bg-[#525252]"
-            }`}
-            onClick={() => {
-              setUserMenuOpen(!userMenuOpen);
-              setActive("Users");
-            }}
-          >
-            <div className="flex items-center gap-4">
-              <FaUsers className="text-lg" />
-              <span className="font-medium">Users</span>
-            </div>
-            <FaChevronDown
-              className={`transition-transform ${
-                userMenuOpen ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-
-          {/* Submenu */}
-          {userMenuOpen && (
-            <ul className="ml-6 mt-2 space-y-2">
-              <li onClick={() => setActive("AdminUsers")}>
-                <Link
-                  to="/adminuser"
-                  className={`flex items-center gap-4 px-4 py-2 rounded-lg transition duration-300 ${
-                    active === "AdminUsers"
-                      ? "bg-[#525252]"
-                      : "hover:bg-[#525252]"
-                  }`}
-                >
-                  <span className="font-medium">Admin Users</span>
-                </Link>
-              </li>
-              <li onClick={() => setActive("Customers")}>
-                <Link
-                  to="/customer"
-                  className={`flex items-center gap-4 px-4 py-2 rounded-lg transition duration-300 ${
-                    active === "Customers"
-                      ? "bg-[#525252]"
-                      : "hover:bg-[#525252]"
-                  }`}
-                >
-                  <span className="font-medium">Customers</span>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
       </ul>
 
       {/* Logout Button */}

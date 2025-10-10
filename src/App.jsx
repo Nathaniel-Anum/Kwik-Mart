@@ -13,11 +13,10 @@ import Category from "./Pages/Category";
 import Subcategory from "./Subcategory";
 import SignIn from "./Pages/SignIn";
 import Orders from "./Pages/Orders";
-import Transaction from "./Pages/Transaction";
-import AdminUser from "./Pages/AdminUser";
-import Customer from "./Pages/Customer";
+
 import ProtectedRoute from "./Pages/ProtectedRoute";
 import Coupon from "./Pages/Coupon";
+import Users from "./Pages/Users";
 
 function App() {
   return (
@@ -35,9 +34,8 @@ function App() {
           <Route path="sub-category" element={<Subcategory />} />
           <Route path="orders" element={<Orders />} />
           <Route path="coupon" element={<Coupon />} />
-          <Route path="transactions" element={<Transaction />} />
-          <Route path="adminuser" element={<AdminUser />} />
-          <Route path="customer" element={<Customer />} />
+          <Route path="users" element={<Users />} />
+         
         </Route>
       </Route>
     </Routes>

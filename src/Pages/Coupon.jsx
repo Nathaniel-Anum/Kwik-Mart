@@ -32,12 +32,12 @@ const fetchCoupons = async () => {
   return res.data;
 };
 
-
-
 const Coupon = () => {
   const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const queryClient = useQueryClient();
 
@@ -77,27 +77,53 @@ const Coupon = () => {
       setLoading(false);
     }
   };
+  const handleGenerate = async (values) => {
+    try {
+      setLoad(true);
+      const payload = {
+        count: values.count,
 
+        discount_type: values.discount_type,
+        max_uses: values.max_uses || 1,
+
+        valid_from: values.valid_from ? formatDate(values.valid_from.$d) : null,
+        valid_to: values.valid_to ? formatDate(values.valid_to.$d) : null,
+        value: values.value,
+      };
+
+      await api.post(
+        "https://kwirkmart.expertech.dev/api/v1/generate/coupons/",
+        payload
+      ); //
+      toast.success("Coupon generated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["coupons"] });
+      setIsOpen(false);
+      form.resetFields();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to create coupon.");
+    } finally {
+      setLoad(false);
+    }
+  };
+
+  //useQuery for fetching coupons
   const { data: coupons = [], isLoading } = useQuery({
     queryKey: ["coupons"],
     queryFn: fetchCoupons,
   });
-  // ✅ Filter coupons based on search input
+
+  // Filter coupons based on search input
   const filteredCoupons = useMemo(() => {
     return coupons.filter((coupon) =>
       coupon.code.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm, coupons]);
 
-  // Menu for edit/delete actions
+  // Menu for delete actions
   const menu = (record) => (
     <Menu
       items={[
-        {
-          key: "edit",
-          label: "Edit Coupon",
-          onClick: () => message.info(`Editing coupon ${record.code}`),
-        },
         {
           key: "delete",
           label: <span className="text-red-500">Delete Coupon</span>,
@@ -186,21 +212,15 @@ const Coupon = () => {
     },
   ];
 
-  const { data: sales } = useQuery({
-    queryKey: ["sales"],
-    queryFn: api.get(
-      "https://kwirkmart.expertech.dev/api/v1/orders/sales/summary/"
-    ),
-  });
-  console.log(sales);
+  // const { data: sales } = useQuery({
+  //   queryKey: ["sales"],
+  //   queryFn: api.get(
+  //     "https://kwirkmart.expertech.dev/api/v1/orders/sales/summary/"
+  //   ),
+  // });
+  // console.log(sales);
 
-  const { data: users } = useQuery({
-    queryKey: ["sales"],
-    queryFn: api.get(
-      "https://kwirkmart.expertech.dev/api/auth/admin/analytics/users/"
-    ),
-  });
-  console.log(users);
+  
 
   const stats = [
     {
@@ -236,6 +256,7 @@ const Coupon = () => {
           <Button
             type="default"
             icon={<FaTicketAlt className="text-lg" />}
+            onClick={() => setIsOpen(true)}
             className="!bg-white border border-gray-300 text-gray-800 font-medium rounded-xl px-6 py-2.5 shadow-sm hover:bg-gray-50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2"
           >
             Generate Coupons
@@ -273,6 +294,7 @@ const Coupon = () => {
           </div>
         ))}
       </div>
+      {/* Modal for creating Coupon*/}
       <Modal
         title={
           <span className="text-xl font-semibold text-gray-800">
@@ -472,8 +494,168 @@ const Coupon = () => {
           </div>
         </Form>
       </Modal>
+
+      {/* Modal for generating Coupon*/}
+
+      <Modal
+        title={
+          <span className="text-xl font-semibold text-gray-800">
+            Generate Coupon
+          </span>
+        }
+        open={isOpen}
+        onCancel={() => {
+          form.resetFields();
+          setIsOpen(false);
+        }}
+        footer={null}
+        width={750}
+        centered
+        className="rounded-2xl"
+        bodyStyle={{
+          backgroundColor: "#f9f9f9",
+          borderRadius: "1rem",
+          padding: "2rem",
+        }}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleGenerate}
+          initialValues={{
+            discount_type: "percent",
+            max_uses: 1,
+            count: 1,
+          }}
+          className="space-y-4"
+        >
+          <Row gutter={[24, 24]}>
+            <Col span={12}>
+              <Form.Item
+                name="count"
+                label={
+                  <span className="text-gray-700 font-medium">
+                    Number of Coupons
+                  </span>
+                }
+                rules={[
+                  { required: true, message: "Please enter coupon code" },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="1"
+                  initialValues={1}
+                  className="!rounded-xl py-2.5 border-gray-300 focus:border-black focus:ring-1 focus:ring-black transition-all"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name="discount_type"
+                label={
+                  <span className="text-gray-700 font-medium">
+                    Discount Type
+                  </span>
+                }
+                rules={[{ required: true }]}
+              >
+                <Select
+                  className="!rounded-xl"
+                  dropdownStyle={{
+                    borderRadius: 10,
+                  }}
+                >
+                  <Option value="percent">Percentage</Option>
+                  <Option value="fixed">Fixed Amount</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name="value"
+                label={
+                  <span className="text-gray-700 font-medium">
+                    Discount Value
+                  </span>
+                }
+                rules={[
+                  { required: true, message: "Please enter discount value" },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Enter value"
+                  className="!rounded-xl py-2.5 border-gray-300 focus:border-black focus:ring-1 focus:ring-black transition-all"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name="valid_from"
+                label={
+                  <span className="text-gray-700 font-medium">Valid From</span>
+                }
+              >
+                <DatePicker className="!w-full rounded-xl py-2.5 border-gray-300 focus:border-black focus:ring-1 focus:ring-black transition-all" />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name="valid_to"
+                label={
+                  <span className="text-gray-700 font-medium">Valid To</span>
+                }
+              >
+                <DatePicker className="w-full rounded-xl py-2.5 border-gray-300 focus:border-black focus:ring-1 focus:ring-black transition-all" />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                name="max_uses"
+                label={
+                  <span className="text-gray-700 font-medium">Max Uses</span>
+                }
+              >
+                <Input
+                  type="number"
+                  placeholder="1"
+                  initialValues={1}
+                  className="!rounded-xl py-2.5 border-gray-300 focus:border-black focus:ring-1 focus:ring-black transition-all"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* Footer Buttons */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 mt-4">
+            <Button
+              onClick={() => {
+                form.resetFields();
+                setIsOpen(false);
+              }}
+              className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 hover:shadow-sm transition-all"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={load}
+              className="bg-black text-white px-6 py-2.5 rounded-lg hover:bg-gray-900 hover:shadow-md transition-all"
+            >
+              Generate
+            </Button>
+          </div>
+        </Form>
+      </Modal>
       <div className="bg-white mt-10 p-6 rounded-2xl shadow-sm">
-        {/* Header Section */}
+        {/* Coupon Header and Table Session */}
         <div className="flex justify-between items-center mb-6">
           <Title level={3} className="!mb-0">
             All Coupons

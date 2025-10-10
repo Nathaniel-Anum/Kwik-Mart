@@ -205,7 +205,7 @@ const Products = () => {
     formData.append("product_sku", values.product_sku);
     formData.append("price", values.price);
     formData.append("stock", values.stock);
-    formData.append("product_sku", values.product_sku);
+
     formData.append("sub_category", values.sub_category);
     if (file) {
       formData.append("product_image", file);
@@ -373,6 +373,7 @@ const Products = () => {
         <Table dataSource={products || []} columns={columns} rowKey="id" />
       </Spin>
 
+      {/*Modal for adding products */}
       <Modal
         title="Add Product"
         open={isModalOpen}
@@ -452,11 +453,13 @@ const Products = () => {
               loading={addMutation.isLoading}
               className="w-full"
             >
-              Submit
+              Add
             </Button>
           </Form.Item>
         </Form>
       </Modal>
+
+      {/*Modal for updating products */}
       <Modal
         title="Edit Product"
         open={isEditModalOpen}
