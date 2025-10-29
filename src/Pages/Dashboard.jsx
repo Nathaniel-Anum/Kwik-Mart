@@ -18,12 +18,12 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-    PieChart,
+  PieChart,
   Pie,
-  Cell
-  
+  Cell,
 } from "recharts";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 const Dashboard = () => {
   // ----- fetch orders (list) -----
   const { data } = useQuery({
@@ -80,7 +80,7 @@ const Dashboard = () => {
     },
   ];
 
-  // ====== 🧾 Sales Over Time (Monthly) ======
+  // ====== Sales Over Time (Monthly) ======
   const monthlyData = {};
 
   orders.forEach((order) => {
@@ -96,7 +96,7 @@ const Dashboard = () => {
     (a, b) => new Date(a.month) - new Date(b.month)
   );
 
-  // ====== 📊 Order Status Distribution ======
+  // ======  Order Status Distribution ======
   const approvedCount = orders.filter((o) => o.status === "Approved").length;
   const cancelledCount = orders.filter((o) => o.status === "Cancelled").length;
 
@@ -105,8 +105,7 @@ const Dashboard = () => {
     { name: "Cancelled", value: cancelledCount },
   ];
 
-
-   // ===== 🥧 PAYMENT METHODS PIE CHART =====
+  // ===== PAYMENT METHODS PIE CHART =====
   const paymentMethodsCount = orders.reduce((acc, order) => {
     const method = order.payment_method || "Unknown";
     acc[method] = (acc[method] || 0) + 1;
@@ -121,20 +120,22 @@ const Dashboard = () => {
   const paymentData = Object.keys(paymentMethodsCount).map((method) => ({
     name: method,
     value: paymentMethodsCount[method],
-    percentage: ((paymentMethodsCount[method] / totalPayments) * 100).toFixed(1),
+    percentage: ((paymentMethodsCount[method] / totalPayments) * 100).toFixed(
+      1
+    ),
   }));
 
   const COLORS = ["#22c55e", "#3b82f6", "#f59e0b"]; // green, blue, amber
 
-  // ===== 🕒 RECENT ORDERS (last 24 hours) =====
+  // =====  RECENT ORDERS (last 24 hours) =====
   const now = dayjs();
   const recentOrders = orders.filter((order) =>
     dayjs(order.order_date).isAfter(now.subtract(24, "hour"))
   );
 
   return (
-    <div className="p-6 ml-[15rem]">
-      <h2 className="text-2xl   mb-8">Welcome back! Here's what's happening with your store</h2>
+    <div className="p-6 ml-60">
+      <h2 className="text-2xl   mb-8">Dashboard</h2>
       <p></p>
 
       {/* Cards Container */}
@@ -142,7 +143,7 @@ const Dashboard = () => {
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-[#ffff] cursor-pointer p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="bg-[#ffff] p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
           >
             {/* Left Section: Count & Title */}
             <div className="flex flex-col space-y-1">
@@ -230,93 +231,100 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
       </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
-      {/* ====== PIE CHART: PAYMENT METHODS ====== */}
-      <div className="bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Payment Methods
-        </h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
+        {/* ====== PIE CHART: PAYMENT METHODS ====== */}
+        <div className="bg-white p-6 rounded-2xl shadow-md">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Payment Methods
+          </h2>
 
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={paymentData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              label
-            >
-              {paymentData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-
-        {/* ===== Legend with Percentages ===== */}
-        <div className="mt-6 space-y-2">
-          {paymentData.map((item, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center border-b py-1 text-gray-700"
-            >
-              <span className="flex items-center gap-2">
-                <span
-                  className="inline-block w-3 h-3 rounded-full"
-                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                ></span>
-                {item.name}
-              </span>
-              <span>
-                {item.value} ({item.percentage}%)
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ====== RECENT ORDERS ====== */}
-      <div className="bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Recent Orders
-        </h2>
-        <p>Orders placed in the last 24 hours</p>
-
-        {recentOrders.length === 0 ? (
-          <p className="text-gray-500 text-center mt-10">
-            No recent orders available
-          </p>
-        ) : (
-          <div className="space-y-4">
-            {recentOrders.map((order) => (
-              <div
-                key={order.order_id}
-                className="p-4 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition"
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={paymentData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
               >
-                <div className="flex justify-between">
-                  <p className="font-semibold text-gray-800">
-                    {order.placed_by}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {dayjs(order.order_date).format("DD MMM YYYY, hh:mm A")}
-                  </p>
-                </div>
-                <div className="flex justify-between mt-1">
-                  <p className="text-gray-600">Payment: {order.payment_status}</p>
-                  <p className="font-semibold text-gray-800">
-                    ₵{order.total_amount}
-                  </p>
-                </div>
+                {paymentData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+
+          {/* ===== Legend with Percentages ===== */}
+          <div className="mt-6 space-y-2">
+            {paymentData.map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center border-b py-1 text-gray-700"
+              >
+                <span className="flex items-center gap-2">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full"
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  ></span>
+                  {item.name}
+                </span>
+                <span>
+                  {item.value} ({item.percentage}%)
+                </span>
               </div>
             ))}
           </div>
-        )}
+        </div>
+        
+        <Link to="/orders">
+          {/* ====== RECENT ORDERS ====== */}
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition cursor-pointer">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+              Recent Orders
+            </h2>
+            <p>Orders placed in the last 24 hours</p>
+
+            {recentOrders.length === 0 ? (
+              <p className="text-gray-500 text-center mt-10">
+                No recent orders available
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {recentOrders.map((order) => (
+                  <div
+                    key={order.order_id}
+                    className="p-4 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition"
+                  >
+                    <div className="flex justify-between">
+                      <p className="font-semibold text-gray-800">
+                        {order.placed_by}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {dayjs(order.order_date).format("DD MMM YYYY, hh:mm A")}
+                      </p>
+                    </div>
+                    <div className="flex justify-between mt-1">
+                      <p className="text-gray-600">
+                        Payment: {order.payment_status}
+                      </p>
+                      <p className="font-semibold text-gray-800">
+                        ₵{order.total_amount}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </Link>
       </div>
-    </div>
     </div>
   );
 };

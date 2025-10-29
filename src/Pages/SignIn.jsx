@@ -29,7 +29,7 @@ const SignIn = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      // console.log("✅ Login Success:", data);
+      // console.log(" Login Success:", data);
 
       // Save tokens
       localStorage.setItem("access", data.access);
@@ -48,7 +48,7 @@ const SignIn = () => {
       toast.error(error.response.data.detail);
       setEmail("");
       setPassword("");
-      // toast.error("❌ Login Failed:", error.response?.data || error.message);
+      // toast.error(" Login Failed:", error.response?.data || error.message);
     },
   });
 

@@ -63,7 +63,11 @@ const createProduct = async (formData) => {
 const updateProduct = async ({ id, formData }) => {
   const { data } = await api.put(
     `https://kwirkmart.expertech.dev/api/products/${id}/`,
-    formData
+    formData,  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }
   );
   return data;
 };
@@ -125,7 +129,8 @@ const Products = () => {
       editForm.resetFields();
       setFile(null);
     },
-    onError: () => toast.error("Failed to update category. Try again!"),
+    onError: (err) =>
+      toast.error(err?.response?.data?.product_image[0] || err.message),
   });
 
   // Mutation for file upload for bulk products upload
@@ -198,6 +203,7 @@ const Products = () => {
   // Handle Edit Form Submit
   const handleEditSubmit = async (values) => {
     if (!selectedCategory) return;
+    // setFile(null);
 
     const formData = new FormData();
     formData.append("name", values.name);
@@ -207,9 +213,16 @@ const Products = () => {
     formData.append("stock", values.stock);
 
     formData.append("sub_category", values.sub_category);
-    if (file) {
+    if (file && file instanceof File) {
+      console.log("Appending new file:", file.name);
       formData.append("product_image", file);
+    } else {
+      console.log("No new file to upload");
     }
+
+    console.log("file var:", file);
+console.log("is File?", file instanceof File);
+
 
     console.log("Submitting FormData for Edit:");
     for (const pair of formData.entries()) {
@@ -517,18 +530,18 @@ const Products = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item label="Product Image" name="product_image">
-            <Upload
-              className="w-full"
-              beforeUpload={() => false}
-              maxCount={1}
-              onChange={(info) => {
-                const file = info.fileList[0]?.originFileObj;
-                if (file) setFile(file);
-              }}
-            >
-              <Button icon={<UploadOutlined />}>Upload Image</Button>
-            </Upload>
+          <Form.Item label="Product Image" >
+          <Upload
+  listType="picture"
+  maxCount={1}
+  beforeUpload={(file) => {
+    setFile(file);          // store the real File
+    return false;          // prevent auto upload
+  }}
+  onRemove={() => setFile(null)}
+>
+  <Button icon={<UploadOutlined />}>Upload Image</Button>
+</Upload>
           </Form.Item>
 
           <Button type="primary" htmlType="submit" className="w-full">
