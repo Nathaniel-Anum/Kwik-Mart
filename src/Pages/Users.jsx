@@ -155,7 +155,7 @@ const Users = () => {
         data
       ),
     onSuccess: (response) => {
-      console.log("✅ Moderator created:", response?.data);
+      console.log("Moderator created:", response?.data);
       toast.success("Moderator created successfully!");
     },
     onError: (error) => {
