@@ -14,6 +14,9 @@ import {
   Popover,
   Image,
   Spin,
+  Col,
+  Row,
+  DatePicker,
 } from "antd";
 import {
   DeleteOutlined,
@@ -63,11 +66,12 @@ const createProduct = async (formData) => {
 const updateProduct = async ({ id, formData }) => {
   const { data } = await api.put(
     `https://kwirkmart.expertech.dev/api/products/${id}/`,
-    formData,  {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  }
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
   );
   return data;
 };
@@ -221,8 +225,7 @@ const Products = () => {
     }
 
     console.log("file var:", file);
-console.log("is File?", file instanceof File);
-
+    console.log("is File?", file instanceof File);
 
     console.log("Submitting FormData for Edit:");
     for (const pair of formData.entries()) {
@@ -240,7 +243,16 @@ console.log("is File?", file instanceof File);
     formData.append("stock", values.stock);
     formData.append("product_sku", values.product_sku);
     formData.append("sub_category", values.sub_category);
+    formData.append("country_of_origin", values.country_of_origin);
+    formData.append("season_label", values.season_label);
     formData.append("is_available", values.is_available || false);
+    formData.append("is_seasonal", values.is_seasonal || false);
+    formData.append("season_start", values.season_start.format("YYYY-MM-DD"));
+    formData.append("season_end", values.season_end.format("YYYY-MM-DD"));
+    formData.append(
+      "is_discounted_feature",
+      values.is_discounted_feature || false
+    );
 
     if (file) {
       formData.append("product_image", file);
@@ -392,72 +404,144 @@ console.log("is File?", file instanceof File);
         open={isModalOpen}
         onCancel={handleCloseModal}
         footer={null}
+        width={700}
       >
         <Form form={form} layout="vertical" onFinish={handleAddProduct}>
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[{ required: true, message: "Please enter product name" }]}
-          >
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="name"
+                label="Name"
+                rules={[
+                  { required: true, message: "Please enter product name" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
 
-          <Form.Item name="description" label="Description">
-            <Input />
-          </Form.Item>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="price"
+                label="Price"
+                rules={[
+                  { required: true, message: "Please enter product price" },
+                ]}
+              >
+                <Input type="number" min={0} className="w-full" />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item
-            name="price"
-            label="Price"
-            min={0}
-            rules={[{ required: true, message: "Please enter product price" }]}
-          >
-            <Input type="number" min={0} className="w-full" />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} md={12}>
+              <Form.Item name="description" label="Description">
+                <Input />
+              </Form.Item>
+            </Col>
 
-          <Form.Item name="stock" label="Stock" initialValue={0}>
-            <Input className="w-full" />
-          </Form.Item>
+            <Col xs={24} md={12}>
+              <Form.Item name="stock" label="Stock" initialValue={0}>
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item
-            name="sub_category"
-            label="Sub-Category"
-            rules={[{ required: true, message: "Please select a subcategory" }]}
-          >
-            <Select>
-              {subcategories?.map((sub) => (
-                <Select.Option key={sub.id} value={sub.id}>
-                  {sub.name}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="sub_category"
+                label="Sub-Category"
+                rules={[
+                  { required: true, message: "Please select a subcategory" },
+                ]}
+              >
+                <Select>
+                  {subcategories?.map((sub) => (
+                    <Select.Option key={sub.id} value={sub.id}>
+                      {sub.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
 
-          <Form.Item
-            name="is_available"
-            label="Available"
-            valuePropName="checked"
-          >
-            <Switch />
-          </Form.Item>
+            <Col xs={24} md={12}>
+              <Form.Item name="product_sku" label="Product Sku">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="country_of_origin" label="Country of Origin">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="season_label" label="Season Label">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="season_start" label="Season Start">
+                <DatePicker className="w-full" format="YYYY-MM-DD" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item name="season_end" label="Season End">
+                <DatePicker className="w-full" format="YYYY-MM-DD" />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item name="product_sku" label="Product Sku">
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col xs={24} md={8}>
+              <Form.Item
+                name="is_available"
+                label="Available"
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
 
-          <Form.Item label="Product Image" name="product_image">
-            <Upload
-              className="w-full"
-              beforeUpload={() => false}
-              maxCount={1}
-              onChange={(info) => {
-                const file = info.fileList[0]?.originFileObj;
-                if (file) setFile(file);
-              }}
-            >
-              <Button icon={<UploadOutlined />}>Upload Image</Button>
-            </Upload>
-          </Form.Item>
+            <Col xs={24} md={8}>
+              <Form.Item
+                name="is_seasonal"
+                label="Seasonal"
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={8}>
+              <Form.Item
+                name="is_discounted_feature"
+                label="Discounted"
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={16}>
+            <Col xs={24} md={12}>
+              <Form.Item label="Product Image" name="product_image">
+                <Upload
+                  className="w-full"
+                  beforeUpload={() => false}
+                  maxCount={1}
+                  onChange={(info) => {
+                    const file = info.fileList[0]?.originFileObj;
+                    if (file) setFile(file);
+                  }}
+                >
+                  <Button icon={<UploadOutlined />}>Upload Image</Button>
+                </Upload>
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Form.Item>
             <Button
@@ -530,18 +614,18 @@ console.log("is File?", file instanceof File);
             </Select>
           </Form.Item>
 
-          <Form.Item label="Product Image" >
-          <Upload
-  listType="picture"
-  maxCount={1}
-  beforeUpload={(file) => {
-    setFile(file);          // store the real File
-    return false;          // prevent auto upload
-  }}
-  onRemove={() => setFile(null)}
->
-  <Button icon={<UploadOutlined />}>Upload Image</Button>
-</Upload>
+          <Form.Item label="Product Image">
+            <Upload
+              listType="picture"
+              maxCount={1}
+              beforeUpload={(file) => {
+                setFile(file); // store the real File
+                return false; // prevent auto upload
+              }}
+              onRemove={() => setFile(null)}
+            >
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
           </Form.Item>
 
           <Button type="primary" htmlType="submit" className="w-full">

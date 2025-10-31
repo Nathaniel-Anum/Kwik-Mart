@@ -50,9 +50,11 @@ const OrdersTable = () => {
     if (s === "approved") return <Tag color="green">Approved</Tag>;
     if (s === "cancelled") return <Tag color="red">Cancelled</Tag>;
     if (s === "paid") return <Tag color="green">Paid</Tag>;
+    if (s === "unpaid") return <Tag color="red">Unpaid</Tag>;
     // processing or default
     return <Tag color="gold">Processing</Tag>;
   }
+
 
   // ----- fetch orders (list) -----
   const { data, isLoading, isError } = useQuery({
@@ -187,6 +189,20 @@ const OrdersTable = () => {
       onFilter: (value, record) => record.status === value,
       align: "center",
     },
+    {
+      title: "Payment Stats",
+      dataIndex: "payment_status",
+      key: "payment_status",
+  render: (s) => statusTag(s),
+      filters: [
+        { text: "Paid", value: "Paid" },
+        { text: "Unpaid", value: "Unpaid" },
+      ],
+      onFilter: (value, record) => record.payment_status === value,
+      align: "center",
+  
+    }
+  ,
   ];
 
   // row selection (single)

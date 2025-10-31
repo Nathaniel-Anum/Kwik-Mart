@@ -39,7 +39,7 @@ const Dashboard = () => {
     (order) => order.payment_status === "Paid"
   ).length;
   const pendingOrders = orders.filter(
-    (order) => order.status === "Pending"
+    (order) => order.status === "Processing"
   ).length;
 
   // Calculate total revenue (sum of total_amount for paid orders)
@@ -99,9 +99,11 @@ const Dashboard = () => {
   // ======  Order Status Distribution ======
   const approvedCount = orders.filter((o) => o.status === "Approved").length;
   const cancelledCount = orders.filter((o) => o.status === "Cancelled").length;
+  const pendingCount = orders.filter((o) => o.status === "Processing").length;
 
   const orderStatusData = [
     { name: "Approved", value: approvedCount },
+    { name: "Pending", value: pendingCount },
     { name: "Cancelled", value: cancelledCount },
   ];
 
@@ -125,7 +127,7 @@ const Dashboard = () => {
     ),
   }));
 
-  const COLORS = ["#22c55e", "#3b82f6", "#f59e0b"]; // green, blue, amber
+  const COLORS = ["#22c55e", "#2B7FFF", "#f59e0b"]; // green, blue, amber
 
   // =====  RECENT ORDERS (last 24 hours) =====
   const now = dayjs();
@@ -223,7 +225,7 @@ const Dashboard = () => {
                 {orderStatusData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={entry.name === "Approved" ? "#22c55e" : "#ef4444"}
+                    fill={entry.name === "Approved" ? "#22c55e" : entry.name ===  "Pending" ? "#F0B100": "#ef4444"}
                   />
                 ))}
               </Bar>
@@ -289,7 +291,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Recent Orders
             </h2>
-            <p>Orders placed in the last 24 hours</p>
+            <p className='pb-6'>Orders placed in the last 24 hours</p>
 
             {recentOrders.length === 0 ? (
               <p className="text-gray-500 text-center mt-10">
@@ -311,6 +313,9 @@ const Dashboard = () => {
                       </p>
                     </div>
                     <div className="flex justify-between mt-1">
+                      <p className="text-gray-600">
+                        Order Status: {order.status}
+                      </p>
                       <p className="text-gray-600">
                         Payment: {order.payment_status}
                       </p>
