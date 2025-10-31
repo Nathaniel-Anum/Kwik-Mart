@@ -36,7 +36,7 @@ const Dashboard = () => {
   // Calculate statistics
   const totalOrders = orders.length;
   const successfulPayments = orders.filter(
-    (order) => order.payment_status === "Paid"
+    (order) => order.status === "Approved"
   ).length;
   const pendingOrders = orders.filter(
     (order) => order.status === "Processing"
