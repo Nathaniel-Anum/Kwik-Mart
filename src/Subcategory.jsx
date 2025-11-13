@@ -97,7 +97,7 @@ const SubcategoriesPage = () => {
 
   // Handle adding a new subcategory
   const handleAddSubmit = () => {
-    if (!formData.name || !formData.description || !formData.category) {
+    if (!formData.name  || !formData.category) {
       return toast.warning("All fields are required");
     }
     addSubcategory.mutate(formData);
@@ -105,7 +105,7 @@ const SubcategoriesPage = () => {
 
   // Handle editing a subcategory
   const handleEditSubmit = () => {
-    if (!formData.name || !formData.description || !formData.category) {
+    if (!formData.name || !formData.category) {
       return toast.warning("All fields are required");
     }
     editSubcategory.mutate({
@@ -137,7 +137,6 @@ const SubcategoriesPage = () => {
   const columns = [
     // { title: "ID", dataIndex: "id", key: "id" },
     { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Description", dataIndex: "description", key: "description" },
     {
       title: "Category",
       dataIndex: "category",
@@ -199,12 +198,7 @@ const SubcategoriesPage = () => {
             value={formData.name}
             onChange={handleChange}
           />
-          <Input
-            placeholder="Enter Description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
+         
           <Select
             placeholder="Select Category"
             loading={categoriesLoading}
@@ -236,12 +230,7 @@ const SubcategoriesPage = () => {
             value={formData.name}
             onChange={handleChange}
           />
-          <Input
-            placeholder="Enter Description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
+        
           <Select
             placeholder="Select Category"
             loading={categoriesLoading}

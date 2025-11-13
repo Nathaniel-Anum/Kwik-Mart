@@ -193,6 +193,7 @@ const Products = () => {
   // Handle Edit Button Click
   const handleEditClick = (record) => {
     setSelectedCategory(record);
+    console.log("record:", record);
     editForm.setFieldsValue({
       name: record.name,
       description: record.description,
@@ -200,6 +201,8 @@ const Products = () => {
       product_sku: record.product_sku,
       sub_category: record.sub_category?.id,
       stock: record.stock,
+      season_label: record.season_label,
+      country_of_origin: record.country_of_origin,
     });
     setIsEditModalOpen(true);
   };
@@ -215,6 +218,7 @@ const Products = () => {
     formData.append("product_sku", values.product_sku);
     formData.append("price", values.price);
     formData.append("stock", values.stock);
+    formData.append("country_of_origin", values.country_of_origin);
 
     formData.append("sub_category", values.sub_category);
     if (file && file instanceof File) {
@@ -236,6 +240,7 @@ const Products = () => {
   };
 
   const handleAddProduct = async (values) => {
+    console.log(values);
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("description", values.description);
@@ -612,6 +617,14 @@ const Products = () => {
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+
+          <Form.Item name="country_of_origin" label="Country of Origin">
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="season_label" label="Season Label">
+            <Input />
           </Form.Item>
 
           <Form.Item label="Product Image">

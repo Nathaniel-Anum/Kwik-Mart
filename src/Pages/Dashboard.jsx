@@ -72,7 +72,7 @@ const Dashboard = () => {
       isCurrency: false,
     },
     {
-      title: "Pending Orders",
+      title: "Awaiting Approval",
       count: pendingOrders,
       color: "bg-yellow-500",
       icon: <FaClock />,
@@ -100,11 +100,15 @@ const Dashboard = () => {
   const approvedCount = orders.filter((o) => o.status === "Approved").length;
   const cancelledCount = orders.filter((o) => o.status === "Cancelled").length;
   const pendingCount = orders.filter((o) => o.status === "Processing").length;
+  const unpaid = orders.filter((o) => o.payment_status === "Unpaid").length;
+
+  // console.log(approvedCount, cancelledCount, pendingCount, unpaid);
 
   const orderStatusData = [
     { name: "Approved", value: approvedCount },
     { name: "Pending", value: pendingCount },
     { name: "Cancelled", value: cancelledCount },
+    { name: "Unpaid", value: unpaid },
   ];
 
   // ===== PAYMENT METHODS PIE CHART =====

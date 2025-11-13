@@ -47,7 +47,10 @@ const createCategory = async (formData) => {
 const updateCategory = async ({ id, formData }) => {
   const { data } = await api.put(
     `https://kwirkmart.expertech.dev/api/categories/${id}/`,
-    formData
+    formData,
+     {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
   );
   return data;
 };
@@ -185,7 +188,7 @@ const Categories = () => {
       ),
     },
     { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Description", dataIndex: "description", key: "description" },
+  
     {
       title: "Action",
       key: "action",
@@ -268,13 +271,7 @@ const Categories = () => {
             <Input placeholder="Enter category name" />
           </Form.Item>
 
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Please enter description!" }]}
-          >
-            <Input placeholder="Enter description" />
-          </Form.Item>
+         
 
           <Form.Item
             label="Category Image"
@@ -324,13 +321,7 @@ const Categories = () => {
             <Input placeholder="Enter category name" />
           </Form.Item>
 
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Please enter description!" }]}
-          >
-            <Input placeholder="Enter description" />
-          </Form.Item>
+        
 
           <Form.Item label="Category Image">
             <Upload
