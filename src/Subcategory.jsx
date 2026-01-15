@@ -4,7 +4,12 @@ import { Table, Button, Modal, Input, Select } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
 import api from "../src/Pages/utils/apiClient";
+
+
+
 const fetchCategories = async () => {
+
+  
   const { data } = await api.get(
     "https://kwirkmart.expertech.dev/api/categories/"
   );
@@ -28,6 +33,7 @@ const SubcategoriesPage = () => {
     category: null,
   });
   const [editingSubcategory, setEditingSubcategory] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   // Fetch categories
   const { data: categories, isLoading: categoriesLoading } = useQuery({
@@ -136,7 +142,17 @@ const SubcategoriesPage = () => {
   // Table columns
   const columns = [
     // { title: "ID", dataIndex: "id", key: "id" },
-    { title: "Name", dataIndex: "name", key: "name" },
+   {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    filteredValue: searchText ? [searchText] : null,
+    onFilter: (value, record) =>
+      record.name
+        ?.toLowerCase()
+        .includes(value.toLowerCase()),
+  },
+
     {
       title: "Category",
       dataIndex: "category",
@@ -165,15 +181,24 @@ const SubcategoriesPage = () => {
     <div className="p-6 ml-[15rem]">
       <h1 className="text-2xl font-semibold mb-4">Sub Category</h1>
       {/* Add Subcategory Button */}
-      <div className="flex justify-end mb-4">
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          Add Subcategory
-        </Button>
-      </div>
+
+      <div className="flex items-center gap-3 mb-4">
+  <Input.Search
+    placeholder="Search by name"
+    allowClear
+    onChange={(e) => setSearchText(e.target.value)}
+    className=" ml-330"
+  />
+
+  <Button
+    type="primary"
+    icon={<PlusOutlined />}
+    onClick={() => setIsAddModalOpen(true)}
+  >
+    Add Subcategory
+  </Button>
+</div>
+
 
       {/* Subcategories Table */}
       <Table

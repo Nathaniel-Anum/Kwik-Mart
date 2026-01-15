@@ -68,6 +68,9 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
+  const [searchText, setSearchText] = useState("");
+
+
 
   // Fetch categories with useQuery
   const { data: categories, isLoading } = useQuery({
@@ -187,7 +190,16 @@ const Categories = () => {
         />
       ),
     },
-    { title: "Name", dataIndex: "name", key: "name" },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    filteredValue: searchText ? [searchText] : null,
+    onFilter: (value, record) =>
+      record.name
+        ?.toLowerCase()
+        .includes(value.toLowerCase()),
+  },
   
     {
       title: "Action",
@@ -234,17 +246,27 @@ const Categories = () => {
   return (
     <div className="p-6 ml-[15rem]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold mb-4">Category</h1>
-        <Button
-          type="primary"
-          className="bg-white text-black rounded-lg flex items-center px-4 py-2 hover:bg-gray-100 transition"
-          icon={<PlusOutlined />}
-          onClick={() => setIsModalOpen(true)}
-        >
-          Add Category
-        </Button>
-      </div>
+     <div className="flex justify-between items-center mb-4">
+  <h1 className="text-2xl font-semibold">Category</h1>
+
+  <div className="flex items-center gap-3">
+    <Input.Search
+      placeholder="Search by name"
+      allowClear
+      onChange={(e) => setSearchText(e.target.value)}
+      className="w-64"
+    />
+
+    <Button
+      type="primary"
+      className="bg-white text-black rounded-lg flex items-center px-4 py-2 hover:bg-gray-100 transition"
+      icon={<PlusOutlined />}
+      onClick={() => setIsModalOpen(true)}
+    >
+      Add Category
+    </Button>
+  </div>
+</div>
 
       {/* Ant Design Table */}
       <Table

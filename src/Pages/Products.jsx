@@ -89,6 +89,7 @@ const Products = () => {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
   const [file, setFile] = useState(null);
+  const [searchText, setSearchText] = useState("");
   const queryClient = useQueryClient();
 
   const { data: subcategories } = useQuery({
@@ -290,7 +291,16 @@ const Products = () => {
         />
       ),
     },
-    { title: "Name", dataIndex: "name", key: "name" },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    filteredValue: searchText ? [searchText] : null,
+    onFilter: (value, record) =>
+      record.name
+        ?.toLowerCase()
+        .includes(value.toLowerCase()),
+  },
     { title: "Description", dataIndex: "description", key: "description" },
     { title: "Price", dataIndex: "price", key: "price" },
     { title: "Stock", dataIndex: "stock", key: "stock" },
@@ -377,6 +387,12 @@ const Products = () => {
     <div className="p-4 ml-[15rem] min-h-screen">
       <h1 className="text-2xl font-semibold mb-4">Products</h1>
       <div className="flex justify-end gap-2 mb-4">
+         <Input.Search
+      placeholder="Search by name"
+      allowClear
+      onChange={(e) => setSearchText(e.target.value)}
+      className="ml-285"
+    />
         <Button
           // type="primary"
           icon={<PlusOutlined />}

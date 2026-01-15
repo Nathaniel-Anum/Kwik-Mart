@@ -12,6 +12,7 @@ import {
   Avatar,
   Space,
   Spin,
+  Input,
 } from "antd";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
@@ -23,6 +24,7 @@ const OrdersTable = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [orderDetail, setOrderDetail] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   // helper: format ISO date into "DD MMM YYYY, HH:mm"
   function formatDate(iso) {
@@ -54,7 +56,6 @@ const OrdersTable = () => {
     // processing or default
     return <Tag color="gold">Processing</Tag>;
   }
-
 
   // ----- fetch orders (list) -----
   const { data, isLoading, isError } = useQuery({
@@ -151,7 +152,13 @@ const OrdersTable = () => {
       dataIndex: "placed_by",
       key: "placed_by",
       render: (t) => t || "-",
+       filteredValue: searchText ? [searchText] : null,
+    onFilter: (value, record) =>
+      record.placed_by
+        ?.toLowerCase()
+        .includes(value.toLowerCase()),
     },
+   
     {
       title: "Order Date",
       dataIndex: "order_date",
@@ -193,16 +200,14 @@ const OrdersTable = () => {
       title: "Payment Stats",
       dataIndex: "payment_status",
       key: "payment_status",
-  render: (s) => statusTag(s),
+      render: (s) => statusTag(s),
       filters: [
         { text: "Paid", value: "Paid" },
         { text: "Unpaid", value: "Unpaid" },
       ],
       onFilter: (value, record) => record.payment_status === value,
       align: "center",
-  
-    }
-  ,
+    },
   ];
 
   // row selection (single)
@@ -277,7 +282,18 @@ const OrdersTable = () => {
               alignItems: "center",
             }}
           >
-            <h2 className="text-2xl font-semibold p-2 mb-6">Orders</h2>
+           
+             <div >
+
+              <Input.Search
+                placeholder="Search by name"
+                allowClear
+                onChange={(e) => setSearchText(e.target.value)}
+              className=""
+              />
+                </div>
+            
+
             <Space>
               <Button
                 danger
