@@ -384,14 +384,14 @@ const Products = () => {
   ];
 
   return (
-    <div className="p-4 ml-[15rem] min-h-screen">
+     <div className="ml-60 p-6 w-[calc(100%-15rem)]">
       <h1 className="text-2xl font-semibold mb-4">Products</h1>
-      <div className="flex justify-end gap-2 mb-4">
+     <div className="flex justify-end items-center gap-4 mb-4">
          <Input.Search
       placeholder="Search by name"
       allowClear
       onChange={(e) => setSearchText(e.target.value)}
-      className="ml-285"
+      style={{ width: 290 }}
     />
         <Button
           // type="primary"

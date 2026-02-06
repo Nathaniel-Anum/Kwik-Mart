@@ -5,11 +5,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import toast from "react-hot-toast";
 import api from "../src/Pages/utils/apiClient";
 
-
-
 const fetchCategories = async () => {
-
-  
   const { data } = await api.get(
     "https://kwirkmart.expertech.dev/api/categories/"
   );
@@ -103,7 +99,7 @@ const SubcategoriesPage = () => {
 
   // Handle adding a new subcategory
   const handleAddSubmit = () => {
-    if (!formData.name  || !formData.category) {
+    if (!formData.name || !formData.category) {
       return toast.warning("All fields are required");
     }
     addSubcategory.mutate(formData);
@@ -142,16 +138,14 @@ const SubcategoriesPage = () => {
   // Table columns
   const columns = [
     // { title: "ID", dataIndex: "id", key: "id" },
-   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    filteredValue: searchText ? [searchText] : null,
-    onFilter: (value, record) =>
-      record.name
-        ?.toLowerCase()
-        .includes(value.toLowerCase()),
-  },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      filteredValue: searchText ? [searchText] : null,
+      onFilter: (value, record) =>
+        record.name?.toLowerCase().includes(value.toLowerCase()),
+    },
 
     {
       title: "Category",
@@ -177,36 +171,43 @@ const SubcategoriesPage = () => {
     },
   ];
 
+  const columnsWithWidth = columns.map((col) => ({
+    ...col,
+    width: col.width ?? 200,
+  }));
+
   return (
-    <div className="p-6 ml-[15rem]">
+    <div className="ml-[15rem] p-6 w-[calc(100%-15rem)]">
       <h1 className="text-2xl font-semibold mb-4">Sub Category</h1>
       {/* Add Subcategory Button */}
 
-      <div className="flex items-center gap-3 mb-4">
-  <Input.Search
-    placeholder="Search by name"
-    allowClear
-    onChange={(e) => setSearchText(e.target.value)}
-    className=" ml-330"
-  />
+      <div className="flex justify-end items-center gap-4 mb-4">
+        <Input.Search
+          placeholder="Search by name"
+          allowClear
+          onChange={(e) => setSearchText(e.target.value)}
+          style={{ width: 290 }}
+        />
 
-  <Button
-    type="primary"
-    icon={<PlusOutlined />}
-    onClick={() => setIsAddModalOpen(true)}
-  >
-    Add Subcategory
-  </Button>
-</div>
+        <Button
+          // type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          Add Subcategory
+        </Button>
+      </div>
 
-
-      {/* Subcategories Table */}
-      <Table
-        dataSource={subcategories}
-        columns={columns}
-        rowKey="id"
-        loading={subcategoriesLoading}
-      />
+      <div className="overflow-x-auto">
+        {/* Subcategories Table */}
+        <Table
+          scroll={{ x: "max-content" }}
+          dataSource={subcategories}
+          columns={columnsWithWidth}
+          rowKey="id"
+          loading={subcategoriesLoading}
+        />
+      </div>
 
       {/* Add Subcategory Modal */}
       <Modal
@@ -223,7 +224,7 @@ const SubcategoriesPage = () => {
             value={formData.name}
             onChange={handleChange}
           />
-         
+
           <Select
             placeholder="Select Category"
             loading={categoriesLoading}
@@ -255,7 +256,7 @@ const SubcategoriesPage = () => {
             value={formData.name}
             onChange={handleChange}
           />
-        
+
           <Select
             placeholder="Select Category"
             loading={categoriesLoading}

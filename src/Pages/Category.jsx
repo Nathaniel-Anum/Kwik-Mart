@@ -244,7 +244,7 @@ const Categories = () => {
   ];
 
   return (
-    <div className="p-6 ml-[15rem]">
+    <div className="p-6 ml-60">
       {/* Header */}
      <div className="flex justify-between items-center mb-4">
   <h1 className="text-2xl font-semibold">Category</h1>
@@ -258,7 +258,7 @@ const Categories = () => {
     />
 
     <Button
-      type="primary"
+      // type="primary"
       className="bg-white text-black rounded-lg flex items-center px-4 py-2 hover:bg-gray-100 transition"
       icon={<PlusOutlined />}
       onClick={() => setIsModalOpen(true)}
