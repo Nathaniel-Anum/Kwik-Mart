@@ -265,14 +265,31 @@ const OrdersTable = () => {
   };
 
   return (
-    <div className="p-4 ml-[15rem] min-h-screen ">
+    <div>
+      {/* Page header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1.25rem",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#111111", margin: 0 }}>Orders</h1>
+          <p style={{ fontSize: "0.78rem", color: "#9ca3af", margin: 0 }}>View and manage customer orders</p>
+        </div>
+      </div>
       <Card
         style={{
           background: "#fff",
-          borderRadius: 8,
-          boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+          borderRadius: 14,
+          boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+          border: "none",
         }}
-        bodyStyle={{ padding: 16 }}
+        bodyStyle={{ padding: 20 }}
       >
         <Space direction="vertical" style={{ width: "100%" }}>
           <div
@@ -280,18 +297,16 @@ const OrdersTable = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.75rem",
             }}
           >
-           
-             <div >
-
-              <Input.Search
-                placeholder="Search by name"
-                allowClear
-                onChange={(e) => setSearchText(e.target.value)}
-              className=""
-              />
-                </div>
+            <Input.Search
+              placeholder="Search by customer name"
+              allowClear
+              onChange={(e) => setSearchText(e.target.value)}
+              style={{ width: 280 }}
+            />
             
 
             <Space>

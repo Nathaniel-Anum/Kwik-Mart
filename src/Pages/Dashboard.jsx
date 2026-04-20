@@ -140,51 +140,57 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="p-6 ml-60">
-      <h2 className="text-2xl   mb-8">Dashboard</h2>
-      <p></p>
+    <div>
+      {/* Page header */}
+      <div style={{ marginBottom: "1.5rem" }}>
+        <h2 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#111111", margin: 0 }}>Overview</h2>
+        <p style={{ fontSize: "0.8rem", color: "#9ca3af", margin: 0 }}>Welcome back — here's what's happening in your store.</p>
+      </div>
 
-      {/* Cards Container */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ marginBottom: "1.5rem" }}>
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-[#ffff] p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="km-stat-card"
           >
-            {/* Left Section: Count & Title */}
-            <div className="flex flex-col space-y-1">
-              <h3 className="text-3xl font-bold text-gray-900">
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+              <p style={{ margin: 0, fontSize: "0.78rem", color: "#9ca3af", fontWeight: 500 }}>
+                {item.title}
+              </p>
+              <h3 style={{ margin: 0, fontSize: "1.9rem", fontWeight: 800, color: "#111111" }}>
                 {item.isCurrency ? (
-                  <>
-                    ₵
-                    <CountUp
-                      end={parseFloat(item.count)}
-                      duration={2.5}
-                      decimals={2}
-                    />
-                  </>
+                  <>₵<CountUp end={parseFloat(item.count)} duration={2.5} decimals={2} /></>
                 ) : (
                   <CountUp end={item.count} duration={2.5} />
                 )}
               </h3>
-              <p className="text-gray-700 text-lg">{item.title}</p>
             </div>
-
-            {/* Right Section: Icon */}
             <div
-              className={`${item.color} text-white p-4 rounded-full text-2xl`}
+              style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "12px",
+                background: "#111111",
+                color: "#F5C100",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.2rem",
+              }}
             >
               {item.icon}
             </div>
           </div>
         ))}
       </div>
-      {/* Cards Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
-        {/* ===== Line Chart: Sales Over Time ===== */}
-        <div className="bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Sales Over Time (Monthly Revenue & Order Volume)
+
+      {/* Charts row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5" style={{ marginBottom: "1.5rem" }}>
+        {/* Line Chart */}
+        <div className="km-page-card">
+          <h2 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#111111", marginBottom: "1rem" }}>
+            Sales Over Time
           </h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={salesData}>
@@ -213,9 +219,9 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* ===== Bar Chart: Order Status Distribution ===== */}
-        <div className="bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+        {/* Bar Chart */}
+        <div className="km-page-card">
+          <h2 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#111111", marginBottom: "1rem" }}>
             Order Status Distribution
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -237,10 +243,12 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
-        {/* ====== PIE CHART: PAYMENT METHODS ====== */}
-        <div className="bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+
+      {/* Bottom row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {/* Pie Chart */}
+        <div className="km-page-card">
+          <h2 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#111111", marginBottom: "1rem" }}>
             Payment Methods
           </h2>
 
@@ -290,40 +298,43 @@ const Dashboard = () => {
         </div>
         
         <Link to="/orders">
-          {/* ====== RECENT ORDERS ====== */}
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition cursor-pointer">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">
-              Recent Orders
-            </h2>
-            <p className='pb-6'>Orders placed in the last 24 hours</p>
+          {/* Recent Orders */}
+          <div className="km-page-card" style={{ cursor: "pointer", height: "100%" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+              <h2 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#111111", margin: 0 }}>Recent Orders</h2>
+              <span style={{ fontSize: "0.75rem", color: "#F5C100", fontWeight: 600 }}>View all →</span>
+            </div>
+            <p style={{ fontSize: "0.78rem", color: "#9ca3af", marginBottom: "1rem" }}>Orders placed in the last 24 hours</p>
 
             {recentOrders.length === 0 ? (
-              <p className="text-gray-500 text-center mt-10">
-                No recent orders available
-              </p>
+              <div style={{ textAlign: "center", padding: "2rem", color: "#9ca3af" }}>
+                No orders in the last 24 hours
+              </div>
             ) : (
-              <div className="space-y-4">
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {recentOrders.map((order) => (
                   <div
                     key={order.order_id}
-                    className="p-4 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition"
+                    style={{
+                      padding: "0.9rem 1rem",
+                      borderRadius: "10px",
+                      border: "1px solid #f0f0f0",
+                      background: "#fafafa",
+                    }}
                   >
-                    <div className="flex justify-between">
-                      <p className="font-semibold text-gray-800">
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3rem" }}>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: "0.88rem", color: "#111111" }}>
                         {order.placed_by}
                       </p>
-                      <p className="text-sm text-gray-500">
-                        {dayjs(order.order_date).format("DD MMM YYYY, hh:mm A")}
+                      <p style={{ margin: 0, fontSize: "0.75rem", color: "#9ca3af" }}>
+                        {dayjs(order.order_date).format("DD MMM, hh:mm A")}
                       </p>
                     </div>
-                    <div className="flex justify-between mt-1">
-                      <p className="text-gray-600">
-                        Order Status: {order.status}
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <p style={{ margin: 0, fontSize: "0.78rem", color: "#6b7280" }}>
+                        {order.status}
                       </p>
-                      <p className="text-gray-600">
-                        Payment: {order.payment_status}
-                      </p>
-                      <p className="font-semibold text-gray-800">
+                      <p style={{ margin: 0, fontSize: "0.88rem", fontWeight: 700, color: "#111111" }}>
                         ₵{order.total_amount}
                       </p>
                     </div>

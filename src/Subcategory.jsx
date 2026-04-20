@@ -177,37 +177,45 @@ const SubcategoriesPage = () => {
   }));
 
   return (
-    <div className="ml-[15rem] p-6 w-[calc(100%-15rem)]">
-      <h1 className="text-2xl font-semibold mb-4">Sub Category</h1>
-      {/* Add Subcategory Button */}
-
-      <div className="flex justify-end items-center gap-4 mb-4">
-        <Input.Search
-          placeholder="Search by name"
-          allowClear
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 290 }}
-        />
-
-        <Button
-          // type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => setIsAddModalOpen(true)}
-        >
-          Add Subcategory
-        </Button>
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1.25rem",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#111111", margin: 0 }}>Sub Category</h1>
+          <p style={{ fontSize: "0.78rem", color: "#9ca3af", margin: 0 }}>Manage your product subcategories</p>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+          <Input.Search
+            placeholder="Search by name"
+            allowClear
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ width: 260 }}
+          />
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            Add Subcategory
+          </Button>
+        </div>
       </div>
 
-      <div className="overflow-x-auto">
-        {/* Subcategories Table */}
-        <Table
-          scroll={{ x: "max-content" }}
-          dataSource={subcategories}
-          columns={columnsWithWidth}
-          rowKey="id"
-          loading={subcategoriesLoading}
-        />
-      </div>
+      <Table
+        scroll={{ x: "max-content" }}
+        dataSource={subcategories}
+        columns={columnsWithWidth}
+        rowKey="id"
+        loading={subcategoriesLoading}
+      />
 
       {/* Add Subcategory Modal */}
       <Modal

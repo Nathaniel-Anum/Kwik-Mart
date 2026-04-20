@@ -173,36 +173,53 @@ const Users = () => {
   };
 
   return (
-    <div className="p-4 ml-[15rem] min-h-screen ">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold">All Users</h2>
-        <div className="space-x-3">
-          {/* New Coupon Button */}
-          <Button
-            icon={<PlusOutlined className="text-lg" />}
-            onClick={() => setIsModalOpen(true)}
-            className="bg-black text-white font-medium px-6 py-2.5 rounded-xl hover:bg-gray-900 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2"
-          >
-            Create Moderator
-          </Button>
+    <div>
+      {/* Page header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1.25rem",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#111111", margin: 0 }}>Users</h1>
+          <p style={{ fontSize: "0.78rem", color: "#9ca3af", margin: 0 }}>Manage customers and moderators</p>
         </div>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => setIsModalOpen(true)}
+        >
+          Create Moderator
+        </Button>
       </div>
-      {/* Cards Container */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ marginBottom: "1.25rem" }}>
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-[#ffff] cursor-pointer p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="km-stat-card"
           >
-            {/* Left Section: Count & Title */}
-            <div className="flex flex-col space-y-1">
-              <h3 className="text-3xl font-bold text-gray-900">{item.count}</h3>
-              <p className="text-gray-700 text-lg">{item.title}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+              <p style={{ margin: 0, fontSize: "0.75rem", color: "#9ca3af", fontWeight: 500 }}>
+                {item.title}
+              </p>
+              <h3 style={{ margin: 0, fontSize: "1.9rem", fontWeight: 800, color: "#111111" }}>
+                {item.count}
+              </h3>
             </div>
-
-            {/* Right Section: Icon */}
             <div
-              className={`${item.color} text-white p-4 rounded-full text-2xl`}
+              style={{
+                width: "46px", height: "46px", borderRadius: "12px",
+                background: "#111111",
+                color: "#F5C100",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem",
+              }}
             >
               {item.icon}
             </div>
@@ -210,47 +227,56 @@ const Users = () => {
         ))}
       </div>
 
-      {/* Table Section */}
-      <div className="bg-white p-6 mt-10 rounded-2xl shadow-sm">
-        <div className="py-4">
-          <h2 className="text-2xl font-semibold mb-4">
-            Account Status Overview
-          </h2>
-        </div>
-
-        {/* Users overview Container */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      {/* Role breakdown card */}
+      <div className="km-page-card" style={{ marginBottom: "1.25rem" }}>
+        <h2 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#111111", marginBottom: "1rem" }}>
+          Account Status Overview
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {custs.map((item, index) => (
             <div
               key={index}
-              className="bg-[#ffff] cursor-pointer p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
+              style={{
+                background: "#f9f9f9",
+                borderRadius: "12px",
+                padding: "1rem 1.25rem",
+                border: "1px solid #f0f0f0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              {/* Left Section: Count & Title */}
-              <div className="flex flex-col space-y-1">
-                <h3 className="text-3xl font-bold text-gray-900">
-                  {item.count}
-                </h3>
-                <p className="text-gray-700 text-lg">{item.title}</p>
+              <div>
+                <p style={{ margin: 0, fontSize: "0.75rem", color: "#9ca3af", fontWeight: 500 }}>{item.title}</p>
+                <h3 style={{ margin: 0, fontSize: "1.6rem", fontWeight: 800, color: "#111111" }}>{item.count}</h3>
               </div>
-
-              {/* Right Section: Icon */}
               <div
-                className={`${item.color} text-white p-4 rounded-full text-2xl`}
+                style={{
+                  width: "40px", height: "40px", borderRadius: "10px",
+                  background: "#F5C100", color: "#111111",
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem",
+                }}
               >
                 {item.icon}
               </div>
             </div>
           ))}
         </div>
+      </div>
 
-        <Input.Search
-          placeholder="Search customers by name or email..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-4 py-2 rounded-xl"
-        />
+      {/* Table card */}
+      <div className="km-page-card">
+        <div style={{ marginBottom: "1rem" }}>
+          <Input.Search
+            placeholder="Search by name or email…"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: 300 }}
+          />
+        </div>
+
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
+          <div style={{ textAlign: "center", padding: "3rem" }}>
             <Spin size="large" />
           </div>
         ) : (
@@ -259,27 +285,26 @@ const Users = () => {
             columns={columns}
             rowKey="id"
             pagination={{ pageSize: 10 }}
-            className="rounded-xl"
           />
         )}
       </div>
 
       <Modal
+        title="Create Moderator"
         open={isModalOpen}
         centered
         footer={null}
         onCancel={() => setIsModalOpen(false)}
         destroyOnClose
+        width={540}
       >
-        <h2 className="text-xl font-semibold mb-4">Create Moderator</h2>
-
-        <Form layout="vertical" form={form} onFinish={handleSubmit}>
+        <Form layout="vertical" form={form} onFinish={handleSubmit} style={{ marginTop: "1rem" }}>
           {/* First & Last Name Side by Side */}
-          <div className="flex gap-4">
+          <div style={{ display: "flex", gap: "1rem" }}>
             <Form.Item
               name="first_name"
               label="First Name"
-              className="w-1/2"
+              style={{ flex: 1 }}
               rules={[{ required: true, message: "First name is required" }]}
             >
               <Input placeholder="John" />
@@ -288,7 +313,7 @@ const Users = () => {
             <Form.Item
               name="last_name"
               label="Last Name"
-              className="w-1/2"
+              style={{ flex: 1 }}
               rules={[{ required: true, message: "Last name is required" }]}
             >
               <Input placeholder="Doe" />
@@ -317,11 +342,11 @@ const Users = () => {
           </Form.Item>
 
           {/* Password & Confirm Password Side by Side */}
-          <div className="flex gap-4">
+          <div style={{ display: "flex", gap: "1rem" }}>
             <Form.Item
               name="password"
               label="Password"
-              className="w-1/2"
+              style={{ flex: 1 }}
               rules={[{ required: true, message: "Password is required" }]}
             >
               <Input.Password />
@@ -330,7 +355,7 @@ const Users = () => {
             <Form.Item
               name="confirm_password"
               label="Confirm Password"
-              className="w-1/2"
+              style={{ flex: 1 }}
               dependencies={["password"]}
               rules={[
                 { required: true, message: "Please confirm your password" },
@@ -349,17 +374,17 @@ const Users = () => {
           </div>
 
           {/* Footer Buttons */}
-          <div className="flex justify-end gap-3 pt-4">
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem", paddingTop: "0.5rem" }}>
             <button
               type="button"
-              onClick={() => setOpen(false)}
-              className="border border-gray-300 rounded px-4 py-2 hover:bg-gray-100"
+              onClick={() => setIsModalOpen(false)}
+              className="km-btn km-btn-outline"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700"
+              className="km-btn km-btn-primary"
             >
               Create Moderator
             </button>

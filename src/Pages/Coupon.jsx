@@ -249,72 +249,103 @@ const Coupon = () => {
     },
   ];
   return (
-    <div className="p-4 ml-[15rem] min-h-screen ">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold">Coupons</h2>
-        <div className="space-x-3">
+    <div>
+      {/* Page header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1.25rem",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
+        <div>
+          <h2 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#111111", margin: 0 }}>Coupons</h2>
+          <p style={{ fontSize: "0.78rem", color: "#9ca3af", margin: 0 }}>Manage discount codes and promotions</p>
+        </div>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           <Button
-            type="default"
-            icon={<FaTicketAlt className="text-lg" />}
+            icon={<FaTicketAlt />}
             onClick={() => setIsOpen(true)}
-            className="!bg-white border border-gray-300 text-gray-800 font-medium rounded-xl px-6 py-2.5 shadow-sm hover:bg-gray-50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2"
           >
             Generate Coupons
           </Button>
-
-          {/* New Coupon Button */}
           <Button
-            icon={<PlusOutlined className="text-lg" />}
+            type="primary"
+            icon={<PlusOutlined />}
             onClick={() => setOpen(true)}
-            className="bg-black text-white font-medium px-6 py-2.5 rounded-xl hover:bg-gray-900 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2"
           >
             New Coupon
           </Button>
         </div>
       </div>
-      {/* Cards Container */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ marginBottom: "1.25rem" }}>
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-[#ffff] cursor-pointer p-10 rounded-[1.4rem] shadow-md flex items-center justify-between transform transition duration-300 hover:scale-105 hover:shadow-lg"
+            className="km-stat-card"
           >
-            {/* Left Section: Count & Title */}
-            <div className="flex flex-col space-y-1">
-              <h3 className="text-3xl font-bold text-gray-900">{item.count}</h3>
-              <p className="text-gray-700 text-lg">{item.title}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+              <p style={{ margin: 0, fontSize: "0.75rem", color: "#9ca3af", fontWeight: 500 }}>
+                {item.title}
+              </p>
+              <h3 style={{ margin: 0, fontSize: "1.9rem", fontWeight: 800, color: "#111111" }}>
+                {item.count}
+              </h3>
             </div>
-
-            {/* Right Section: Icon */}
             <div
-              className={`${item.color} text-white p-4 rounded-full text-2xl`}
+              style={{
+                width: "46px", height: "46px", borderRadius: "12px",
+                background: "#111111",
+                color: "#F5C100",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem",
+              }}
             >
               {item.icon}
             </div>
           </div>
         ))}
       </div>
+
+      {/* Search + Table card */}
+      <div className="km-page-card">
+        <div style={{ marginBottom: "1rem" }}>
+          <Input.Search
+            placeholder="Search coupon code…"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: 280 }}
+          />
+        </div>
+        {isLoading ? (
+          <div style={{ textAlign: "center", padding: "3rem" }}>
+            <Spin size="large" />
+          </div>
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={filteredCoupons}
+            rowKey="id"
+            pagination={{ pageSize: 10 }}
+          />
+        )}
+      </div>
+
       {/* Modal for creating Coupon*/}
       <Modal
-        title={
-          <span className="text-xl font-semibold text-gray-800">
-            Create Coupon
-          </span>
-        }
+        title="Create Coupon"
         open={open}
         onCancel={() => {
           form.resetFields();
           setOpen(false);
         }}
         footer={null}
-        width={750}
+        width={720}
         centered
-        className="rounded-2xl"
-        bodyStyle={{
-          backgroundColor: "#f9f9f9",
-          borderRadius: "1rem",
-          padding: "2rem",
-        }}
       >
         <Form
           form={form}
@@ -323,7 +354,6 @@ const Coupon = () => {
           initialValues={{
             discount_type: "percent",
           }}
-          className="space-y-4"
         >
           <Row gutter={[24, 24]}>
             <Col span={12}>
@@ -498,25 +528,15 @@ const Coupon = () => {
       {/* Modal for generating Coupon*/}
 
       <Modal
-        title={
-          <span className="text-xl font-semibold text-gray-800">
-            Generate Coupon
-          </span>
-        }
+        title="Generate Coupons"
         open={isOpen}
         onCancel={() => {
           form.resetFields();
           setIsOpen(false);
         }}
         footer={null}
-        width={750}
+        width={680}
         centered
-        className="rounded-2xl"
-        bodyStyle={{
-          backgroundColor: "#f9f9f9",
-          borderRadius: "1rem",
-          padding: "2rem",
-        }}
       >
         <Form
           form={form}
@@ -654,44 +674,6 @@ const Coupon = () => {
           </div>
         </Form>
       </Modal>
-      <div className="bg-white mt-10 p-6 rounded-2xl shadow-sm">
-        {/* Coupon Header and Table Session */}
-        <div className="flex justify-between items-center mb-6">
-          <Title level={3} className="!mb-0">
-            All Coupons
-          </Title>
-          <div className="relative w-64">
-            <Input
-              prefix={<SearchOutlined className="text-gray-400 mr-2" />}
-              placeholder="Search by code..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="rounded-xl py-2 border-gray-300 focus:border-black focus:ring-1 focus:ring-black transition-all"
-            />
-          </div>
-        </div>
-
-        {/* Table Section */}
-        {isLoading ? (
-          <div className="flex justify-center items-center py-20">
-            <Spin size="large" />
-          </div>
-        ) : (
-          <>
-            <Table
-              columns={columns}
-              dataSource={filteredCoupons}
-              rowKey="id"
-              pagination={{ pageSize: 10 }}
-              className="rounded-lg text-base"
-            />
-            <div className="text-gray-500 text-sm mt-3">
-              {filteredCoupons.length} coupon
-              {filteredCoupons.length !== 1 ? "s" : ""} found
-            </div>
-          </>
-        )}
-      </div>
     </div>
   );
 };

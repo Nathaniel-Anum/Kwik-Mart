@@ -1,7 +1,253 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
+:root {
+  --km-black: #111111;
+  --km-yellow: #F5C100;
+  --km-surface: #f5f5f5;
+}
+
 body {
-  font-family: "Poppins", serif;
+  font-family: "Poppins", sans-serif;
   overflow-x: hidden;
+  background: var(--km-surface);
+}
+
+/* ── Ant Design: Modals ── */
+.ant-modal-content {
+  border-radius: 16px !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.14) !important;
+  overflow: visible !important;
+}
+
+.ant-modal-header {
+  background: #111111 !important;
+  padding: 16px 24px !important;
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+.ant-modal-title {
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+.ant-modal-close {
+  color: rgba(255,255,255,0.75) !important;
+  top: 12px !important;
+  inset-inline-end: 16px !important;
+  border-radius: 6px !important;
+}
+
+.ant-modal-close:hover {
+  color: #F5C100 !important;
+  background: rgba(255,255,255,0.12) !important;
+}
+
+.ant-modal-body {
+  padding: 24px !important;
+}
+
+.ant-modal-footer {
+  padding: 14px 24px !important;
+  border-top: 1px solid #f0f0f0 !important;
+}
+
+.ant-modal-footer .ant-btn-primary {
+  background: #111111 !important;
+  border-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+.ant-modal-footer .ant-btn-primary:hover:not(:disabled) {
+  background: #F5C100 !important;
+  border-color: #F5C100 !important;
+  color: #111111 !important;
+}
+
+/* ── Ant Design: Drawer ── */
+.ant-drawer-header {
+  background: #111111 !important;
+  border-bottom: none !important;
+  padding: 18px 24px !important;
+}
+
+.ant-drawer-title {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.ant-drawer-close {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+.ant-drawer-close:hover {
+  color: #F5C100 !important;
+  background: rgba(255,255,255,0.1) !important;
+}
+
+/* ── Ant Design: Table ── */
+.ant-table {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.ant-table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.ant-table-thead > tr > th {
+  background: #111111 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-bottom: none !important;
+  padding: 14px 16px !important;
+}
+
+.ant-table-thead > tr > th::before {
+  display: none !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #fefce8 !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f5f5f5 !important;
+  padding: 13px 16px !important;
+  font-size: 0.88rem;
+}
+
+.ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+
+/* ── Ant Design: Inputs ── */
+.ant-input,
+.ant-input-affix-wrapper {
+  border-radius: 8px !important;
+}
+
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: #F5C100 !important;
+  box-shadow: 0 0 0 2px rgba(245, 193, 0, 0.2) !important;
+}
+
+.ant-input-search-button {
+  background: #111111 !important;
+  border-color: #111111 !important;
+  color: #fff !important;
+}
+
+/* ── Ant Design: Select ── */
+.ant-select-selector {
+  border-radius: 8px !important;
+}
+
+.ant-select-focused .ant-select-selector {
+  border-color: #F5C100 !important;
+  box-shadow: 0 0 0 2px rgba(245, 193, 0, 0.2) !important;
+}
+
+/* ── Ant Design: Buttons ── */
+.ant-btn-primary {
+  background: #111111 !important;
+  border-color: #111111 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.ant-btn-primary:hover:not(:disabled) {
+  background: #F5C100 !important;
+  border-color: #F5C100 !important;
+  color: #111111 !important;
+}
+
+/* km-btn: reusable brand button class */
+.km-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.km-btn-primary {
+  background: #111111;
+  color: #ffffff;
+}
+
+.km-btn-primary:hover {
+  background: #F5C100;
+  color: #111111;
+}
+
+.km-btn-outline {
+  background: transparent;
+  color: #111111;
+  border: 1.5px solid #e5e7eb;
+}
+
+.km-btn-outline:hover {
+  border-color: #111111;
+  background: #f9f9f9;
+}
+
+/* Page card wrapper */
+.km-page-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Stat card */
+.km-stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.km-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #f5f5f5; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ── Responsive: hide sidebar on mobile ── */
+@media (max-width: 1023px) {
+  .sidebar-fixed {
+    transform: translateX(-100%);
+  }
+  .sidebar-fixed.sidebar-open {
+    transform: translateX(0);
+  }
 }

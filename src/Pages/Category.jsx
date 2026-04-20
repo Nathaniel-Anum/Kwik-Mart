@@ -244,29 +244,38 @@ const Categories = () => {
   ];
 
   return (
-    <div className="p-6 ml-60">
+    <div>
       {/* Header */}
-     <div className="flex justify-between items-center mb-4">
-  <h1 className="text-2xl font-semibold">Category</h1>
-
-  <div className="flex items-center gap-3">
-    <Input.Search
-      placeholder="Search by name"
-      allowClear
-      onChange={(e) => setSearchText(e.target.value)}
-      className="w-64"
-    />
-
-    <Button
-      // type="primary"
-      className="bg-white text-black rounded-lg flex items-center px-4 py-2 hover:bg-gray-100 transition"
-      icon={<PlusOutlined />}
-      onClick={() => setIsModalOpen(true)}
-    >
-      Add Category
-    </Button>
-  </div>
-</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1.25rem",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#111111", margin: 0 }}>Category</h1>
+          <p style={{ fontSize: "0.78rem", color: "#9ca3af", margin: 0 }}>Manage your product categories</p>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+          <Input.Search
+            placeholder="Search by name"
+            allowClear
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ width: 260 }}
+          />
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Add Category
+          </Button>
+        </div>
+      </div>
 
       {/* Ant Design Table */}
       <Table

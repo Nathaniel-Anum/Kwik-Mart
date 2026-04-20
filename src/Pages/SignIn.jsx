@@ -1,27 +1,24 @@
 import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLeaf, FaShieldAlt, FaAward } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { ImSpinner2 } from "react-icons/im"; // Import spinner icon
+import { ImSpinner2 } from "react-icons/im";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "./AuthContext";
-import logo from "../../src/Pages/utils/logo.jpg";
+import logo from "../Pages/utils/logo2.png";
 
 const SignIn = () => {
   const { setUser } = useAuth();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); //for loading spinner
   const [redirecting, setRedirecting] = useState(false);
 
   const navigate = useNavigate();
   const baseURL = "https://kwirkmart.expertech.dev";
 
-  const handleTogglePassword = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const handleTogglePassword = () => setPasswordVisible((v) => !v);
 
   const mutation = useMutation({
     mutationFn: async (values) => {
@@ -29,118 +26,420 @@ const SignIn = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      // console.log(" Login Success:", data);
-
-      // Save tokens
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       setUser(data.user);
-
-      // Show redirect loader
       setRedirecting(true);
-
-      // Navigate after 1.5s
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1500);
+      setTimeout(() => navigate("/dashboard"), 1500);
     },
     onError: (error) => {
-      toast.error(error.response.data.detail);
+      toast.error(error.response?.data?.detail || "Login failed");
       setEmail("");
       setPassword("");
-      // toast.error(" Login Failed:", error.response?.data || error.message);
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const values = { email, password };
-    mutation.mutate(values);
+    mutation.mutate({ email, password });
   };
 
-  // 🔹 If redirecting, show loader page
   if (redirecting) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
-        <div className="flex flex-col items-center gap-3">
-          <ImSpinner2 className="text-4xl animate-spin text-gray-700" />
-          <p className="text-gray-700 font-medium">
-            Login Successful. Redirecting to Dashboard...
-          </p>
-        </div>
+      <div style={styles.redirectScreen}>
+        <ImSpinner2 style={styles.redirectSpinner} className="animate-spin" />
+        <p style={styles.redirectText}>Login Successful. Redirecting to Dashboard…</p>
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-white">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white/20  backdrop-blur-lg p-8 rounded-xl shadow-lg w-96"
-      >
-        <h2 className="text-2xl font-bold text-center text-gray-900 ">Admin</h2>
+    <div style={styles.page}>
+      {/* ── LEFT PANEL ── */}
+      <div style={styles.leftPanel}>
+        <div style={styles.circle1} />
+        <div style={styles.circle2} />
 
-        <div className="flex  justify-center ">
-          <img src={logo} alt="KwikMart" className="h-[12rem]" />
-        </div>
+        <div style={styles.leftInner}>
+          {/* Headline */}
+          <h1 style={styles.headline}>
+            Premium&nbsp;Grocery,<br />Delivered&nbsp;with&nbsp;Care.
+          </h1>
+          <p style={styles.subline}>
+            Your one-stop destination for the finest fresh produce, artisan
+            goods, and everyday essentials — curated for a life well lived.
+          </p>
 
-        {/* Email Field */}
-        <div className="mb-4">
-          <label className="block text-gray-900 font-semibold mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-black rounded-md bg-transparent text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
-            required
-          />
-        </div>
-
-        {/* Password Field */}
-        <div className="mb-6">
-          <label className="block text-gray-900 font-semibold mb-1">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              type={passwordVisible ? "text" : "password"}
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-black rounded-md bg-transparent text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
-              required
-            />
-            <button
-              type="button"
-              onClick={handleTogglePassword}
-              className="absolute inset-y-0 right-2 flex items-center text-gray-700 cursor-pointer"
-            >
-              {passwordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-            </button>
+          {/* Feature pills */}
+          <div style={styles.pillsWrap}>
+            {[
+              { icon: <FaLeaf />, label: "Fresh & Organic" },
+              { icon: <FaAward />, label: "Premium Quality" },
+              { icon: <FaShieldAlt />, label: "Trusted & Secure" },
+            ].map(({ icon, label }) => (
+              <div key={label} style={styles.pill}>
+                <span style={styles.pillIcon}>{icon}</span>
+                <span>{label}</span>
+              </div>
+            ))}
           </div>
-        </div>
 
-        {/* Sign In Button */}
-        <button
-          type="submit"
-          className="w-full bg-gray-900 flex items-center justify-center gap-3 text-white py-2 rounded-md font-semibold hover:bg-gray-700 transition cursor-pointer disabled:opacity-50"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <ImSpinner2 className="text-lg animate-spin" />
-              <span className="text-sm font-medium">Signing In...</span>
-            </>
-          ) : (
-            <span className="text-sm font-medium">Sign In</span>
-          )}
-        </button>
-      </form>
+          {/* Footer note */}
+          <p style={styles.footerNote}>
+            © {new Date().getFullYear()} KwikMart. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+      {/* ── RIGHT PANEL ── */}
+      <div style={styles.rightPanel}>
+        <div style={styles.formCard}>
+          {/* Top accent line */}
+          <div style={styles.accentLine} />
+
+          {/* Logo inside form card */}
+          <div style={styles.logoWrap}>
+            <img src={logo} alt="KwikMart" style={styles.logo} />
+          </div>
+
+          <p style={styles.welcomeTag}>Welcome back</p>
+          <h2 style={styles.formTitle}>Admin Portal</h2>
+          <p style={styles.formSubtitle}>
+            Sign in to manage your store, orders, and inventory.
+          </p>
+
+          <form onSubmit={handleSubmit} style={styles.form}>
+            {/* Email */}
+            <div style={styles.fieldGroup}>
+              <label style={styles.label}>Email Address</label>
+              <input
+                type="email"
+                placeholder="admin@kwikmart.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={styles.input}
+                onFocus={(e) => Object.assign(e.target.style, styles.inputFocus)}
+                onBlur={(e) => Object.assign(e.target.style, styles.input)}
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div style={styles.fieldGroup}>
+              <label style={styles.label}>Password</label>
+              <div style={styles.passwordWrap}>
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ ...styles.input, paddingRight: "3rem" }}
+                  onFocus={(e) => Object.assign(e.target.style, styles.inputFocus)}
+                  onBlur={(e) =>
+                    Object.assign(e.target.style, { ...styles.input, paddingRight: "3rem" })
+                  }
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={handleTogglePassword}
+                  style={styles.eyeBtn}
+                >
+                  {passwordVisible ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={mutation.isPending}
+              style={mutation.isPending ? { ...styles.submitBtn, opacity: 0.7 } : styles.submitBtn}
+              onMouseEnter={(e) =>
+                !mutation.isPending && Object.assign(e.target.style, styles.submitBtnHover)
+              }
+              onMouseLeave={(e) => Object.assign(e.target.style, styles.submitBtn)}
+            >
+              {mutation.isPending ? (
+                <>
+                  <ImSpinner2
+                    size={18}
+                    className="animate-spin"
+                    style={{ marginRight: "0.5rem" }}
+                  />
+                  Signing In…
+                </>
+              ) : (
+                "Sign In"
+              )}
+            </button>
+          </form>
+
+          <p style={styles.secureNote}>
+            <FaShieldAlt style={{ marginRight: "0.4rem", color: YELLOW }} />
+            Secured &amp; encrypted connection
+          </p>
+        </div>
+      </div>
     </div>
   );
+};
+
+/* ─────────────────────── Palette ─────────────────────── */
+const BLACK  = "#111111";
+const YELLOW = "#F5C100";
+const OFF_WHITE = "#FFFDF5";
+
+const styles = {
+  page: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    minHeight: "100vh",
+    fontFamily: "'Inter', 'Segoe UI', sans-serif",
+  },
+
+  /* ── Left panel ── */
+  leftPanel: {
+    background: `linear-gradient(145deg, ${BLACK} 0%, #1a1a1a 55%, #262626 100%)`,
+    position: "relative",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "3rem",
+  },
+  circle1: {
+    position: "absolute",
+    width: "500px",
+    height: "500px",
+    borderRadius: "50%",
+    background: `radial-gradient(circle, rgba(245,193,0,0.15) 0%, transparent 65%)`,
+    top: "-150px",
+    right: "-160px",
+  },
+  circle2: {
+    position: "absolute",
+    width: "350px",
+    height: "350px",
+    borderRadius: "50%",
+    background: `radial-gradient(circle, rgba(245,193,0,0.10) 0%, transparent 65%)`,
+    bottom: "-100px",
+    left: "-100px",
+  },
+  leftInner: {
+    position: "relative",
+    zIndex: 1,
+    maxWidth: "420px",
+    width: "100%",
+  },
+  headline: {
+    fontSize: "2.7rem",
+    fontWeight: "800",
+    lineHeight: "1.2",
+    color: "#ffffff",
+    marginBottom: "1.2rem",
+    letterSpacing: "-0.5px",
+  },
+  subline: {
+    fontSize: "1rem",
+    color: "rgba(255,255,255,0.65)",
+    lineHeight: "1.8",
+    marginBottom: "2.5rem",
+  },
+  pillsWrap: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.85rem",
+    marginBottom: "3rem",
+  },
+  pill: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.75rem",
+    background: "rgba(255,255,255,0.05)",
+    border: `1px solid rgba(245,193,0,0.35)`,
+    borderRadius: "50px",
+    padding: "0.65rem 1.2rem",
+    color: "#fff",
+    fontSize: "0.88rem",
+    fontWeight: "500",
+    width: "fit-content",
+  },
+  pillIcon: {
+    color: YELLOW,
+    fontSize: "1rem",
+    display: "flex",
+    alignItems: "center",
+  },
+  footerNote: {
+    color: "rgba(255,255,255,0.25)",
+    fontSize: "0.78rem",
+  },
+
+  /* ── Right panel ── */
+  rightPanel: {
+    background: OFF_WHITE,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "2rem",
+  },
+  formCard: {
+    background: "#ffffff",
+    borderRadius: "20px",
+    padding: "2.5rem 2.8rem 2.8rem",
+    width: "100%",
+    maxWidth: "440px",
+    boxShadow: "0 24px 64px rgba(0,0,0,0.10)",
+    position: "relative",
+    overflow: "hidden",
+  },
+  accentLine: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "4px",
+    background: `linear-gradient(90deg, ${BLACK}, ${YELLOW})`,
+    borderRadius: "20px 20px 0 0",
+  },
+
+  /* Logo on form side */
+  logoWrap: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "1.6rem",
+    marginTop: "0.4rem",
+  },
+  logo: {
+    height: "110px",
+    objectFit: "contain",
+  },
+
+  welcomeTag: {
+    fontSize: "0.78rem",
+    fontWeight: "700",
+    letterSpacing: "2.5px",
+    textTransform: "uppercase",
+    color: YELLOW,
+    marginBottom: "0.4rem",
+    textAlign: "center",
+  },
+  formTitle: {
+    fontSize: "1.85rem",
+    fontWeight: "800",
+    color: BLACK,
+    marginBottom: "0.4rem",
+    letterSpacing: "-0.3px",
+    textAlign: "center",
+  },
+  formSubtitle: {
+    fontSize: "0.88rem",
+    color: "#6b7280",
+    marginBottom: "1.8rem",
+    lineHeight: "1.5",
+    textAlign: "center",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1.3rem",
+  },
+  fieldGroup: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.45rem",
+  },
+  label: {
+    fontSize: "0.8rem",
+    fontWeight: "700",
+    color: "#374151",
+    letterSpacing: "0.3px",
+  },
+  input: {
+    width: "100%",
+    padding: "0.85rem 1rem",
+    border: "1.5px solid #e5e7eb",
+    borderRadius: "10px",
+    fontSize: "0.95rem",
+    color: "#1f2937",
+    background: "#fafafa",
+    outline: "none",
+    transition: "border-color 0.2s, box-shadow 0.2s",
+    boxSizing: "border-box",
+  },
+  inputFocus: {
+    border: `1.5px solid ${YELLOW}`,
+    boxShadow: `0 0 0 3px rgba(245,193,0,0.18)`,
+    background: "#ffffff",
+    outline: "none",
+  },
+  passwordWrap: {
+    position: "relative",
+  },
+  eyeBtn: {
+    position: "absolute",
+    top: "50%",
+    right: "1rem",
+    transform: "translateY(-50%)",
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    color: "#9ca3af",
+    padding: 0,
+    display: "flex",
+    alignItems: "center",
+  },
+  submitBtn: {
+    width: "100%",
+    padding: "0.95rem",
+    background: BLACK,
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "10px",
+    fontSize: "0.95rem",
+    fontWeight: "700",
+    cursor: "pointer",
+    letterSpacing: "0.5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "background 0.2s, transform 0.15s",
+    marginTop: "0.4rem",
+  },
+  submitBtnHover: {
+    background: YELLOW,
+    color: BLACK,
+    transform: "translateY(-1px)",
+  },
+  secureNote: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "1.5rem",
+    fontSize: "0.78rem",
+    color: "#9ca3af",
+  },
+
+  /* ── Redirect screen ── */
+  redirectScreen: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+    background: BLACK,
+    gap: "1rem",
+  },
+  redirectSpinner: {
+    fontSize: "2.5rem",
+    color: YELLOW,
+  },
+  redirectText: {
+    color: "rgba(255,255,255,0.8)",
+    fontWeight: "500",
+    fontSize: "1rem",
+  },
 };
 
 export default SignIn;
