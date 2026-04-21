@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "name": "banner-design",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:02.320Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\banner-design\\SKILL.md"
+      ]
+    },
+    {
+      "name": "brand",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:02.743Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\brand\\SKILL.md"
+      ]
+    },
+    {
+      "name": "design-system",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:03.131Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\design-system\\SKILL.md"
+      ]
+    },
+    {
+      "name": "design",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:03.545Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\design\\SKILL.md"
+      ]
+    },
+    {
+      "name": "slides",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:03.946Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\slides\\SKILL.md"
+      ]
+    },
+    {
+      "name": "ui-styling",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:04.361Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\ui-styling\\SKILL.md"
+      ]
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:52:04.881Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\ui-ux-pro-max\\SKILL.md"
+      ]
+    },
+    {
+      "name": "writing-skills",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:08.041Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\writing-skills\\SKILL.md",
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\writing-skills\\SKILL.md"
+      ]
+    },
+    {
+      "name": "brainstorming",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:08.444Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\brainstorming\\SKILL.md"
+      ]
+    },
+    {
+      "name": "dispatching-parallel-agents",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:08.784Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\dispatching-parallel-agents\\SKILL.md"
+      ]
+    },
+    {
+      "name": "executing-plans",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:09.171Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\executing-plans\\SKILL.md"
+      ]
+    },
+    {
+      "name": "finishing-a-development-branch",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:09.574Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\finishing-a-development-branch\\SKILL.md"
+      ]
+    },
+    {
+      "name": "receiving-code-review",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:09.982Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\receiving-code-review\\SKILL.md"
+      ]
+    },
+    {
+      "name": "requesting-code-review",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:10.393Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\requesting-code-review\\SKILL.md"
+      ]
+    },
+    {
+      "name": "subagent-driven-development",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:10.803Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\subagent-driven-development\\SKILL.md"
+      ]
+    },
+    {
+      "name": "systematic-debugging",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:11.141Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\systematic-debugging\\SKILL.md"
+      ]
+    },
+    {
+      "name": "test-driven-development",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:11.532Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\test-driven-development\\SKILL.md"
+      ]
+    },
+    {
+      "name": "using-git-worktrees",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:11.935Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\using-git-worktrees\\SKILL.md"
+      ]
+    },
+    {
+      "name": "using-superpowers",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:12.354Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\using-superpowers\\SKILL.md"
+      ]
+    },
+    {
+      "name": "verification-before-completion",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:12.754Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\verification-before-completion\\SKILL.md"
+      ]
+    },
+    {
+      "name": "writing-plans",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "installedAt": "2026-04-21T08:53:13.163Z",
+      "files": [
+        "c:\\Users\\NathanielA\\Desktop\\Kwik-Mart\\.github\\skills\\writing-plans\\SKILL.md"
+      ]
+    }
+  ]
+}
