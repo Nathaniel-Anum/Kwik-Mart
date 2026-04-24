@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEye, FaEyeSlash, FaLeaf, FaShieldAlt, FaAward } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaShieldAlt, FaAward, FaStore, FaBoxOpen, FaTags } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ImSpinner2 } from "react-icons/im";
 import { useMutation } from "@tanstack/react-query";
@@ -44,6 +44,46 @@ const SignIn = () => {
     mutation.mutate({ email, password });
   };
 
+  const responsiveStyles = `
+    .km-page {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+    @media (max-width: 900px) {
+      .km-page {
+        grid-template-columns: 1fr !important;
+      }
+      .km-left-panel {
+        display: none !important;
+      }
+      .km-right-panel {
+        padding: 1.5rem !important;
+        min-height: 100vh;
+      }
+      .km-form-card {
+        padding: 2rem 1.75rem 2.2rem !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .km-right-panel {
+        padding: 1rem !important;
+        align-items: flex-start !important;
+        padding-top: 2rem !important;
+      }
+      .km-form-card {
+        padding: 1.5rem 1.2rem 1.8rem !important;
+        border-radius: 14px !important;
+      }
+      .km-logo {
+        height: 80px !important;
+      }
+      .km-form-title {
+        font-size: 1.55rem !important;
+      }
+    }
+  `;
+
   if (redirecting) {
     return (
       <div style={styles.redirectScreen}>
@@ -54,28 +94,30 @@ const SignIn = () => {
   }
 
   return (
-    <div style={styles.page}>
+    <>
+    <style>{responsiveStyles}</style>
+    <div style={styles.page} className="km-page">
       {/* ── LEFT PANEL ── */}
-      <div style={styles.leftPanel}>
+      <div style={styles.leftPanel} className="km-left-panel">
         <div style={styles.circle1} />
         <div style={styles.circle2} />
 
         <div style={styles.leftInner}>
           {/* Headline */}
           <h1 style={styles.headline}>
-            Premium&nbsp;Grocery,<br />Delivered&nbsp;with&nbsp;Care.
+            Everything&nbsp;You&nbsp;Need,<br />All&nbsp;in&nbsp;One&nbsp;Place.
           </h1>
           <p style={styles.subline}>
-            Your one-stop destination for the finest fresh produce, artisan
-            goods, and everyday essentials — curated for a life well lived.
+            Your one-stop shop for beverages, snacks, household essentials,
+            personal care, and thousands of products — delivered fast and reliably.
           </p>
 
           {/* Feature pills */}
           <div style={styles.pillsWrap}>
             {[
-              { icon: <FaLeaf />, label: "Fresh & Organic" },
-              { icon: <FaAward />, label: "Premium Quality" },
-              { icon: <FaShieldAlt />, label: "Trusted & Secure" },
+              { icon: <FaStore />, label: "All Categories" },
+              { icon: <FaBoxOpen />, label: "Wide Selection" },
+              { icon: <FaTags />, label: "Best Prices" },
             ].map(({ icon, label }) => (
               <div key={label} style={styles.pill}>
                 <span style={styles.pillIcon}>{icon}</span>
@@ -84,26 +126,23 @@ const SignIn = () => {
             ))}
           </div>
 
-          {/* Footer note */}
-          <p style={styles.footerNote}>
-            © {new Date().getFullYear()} KwikMart. All rights reserved.
-          </p>
+        
         </div>
       </div>
 
       {/* ── RIGHT PANEL ── */}
-      <div style={styles.rightPanel}>
-        <div style={styles.formCard}>
+      <div style={styles.rightPanel} className="km-right-panel">
+        <div style={styles.formCard} className="km-form-card">
           {/* Top accent line */}
           <div style={styles.accentLine} />
 
           {/* Logo inside form card */}
           <div style={styles.logoWrap}>
-            <img src={logo} alt="KwikMart" style={styles.logo} />
+            <img src={logo} alt="KwikMart" style={styles.logo} className="km-logo" />
           </div>
 
           <p style={styles.welcomeTag}>Welcome back</p>
-          <h2 style={styles.formTitle}>Admin Portal</h2>
+          <h2 style={styles.formTitle} className="km-form-title">Admin Portal</h2>
           <p style={styles.formSubtitle}>
             Sign in to manage your store, orders, and inventory.
           </p>
@@ -182,6 +221,7 @@ const SignIn = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
